@@ -1,0 +1,35 @@
+body { margin: 0px; }
+#tree_left .dtree {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #666;
+	height: 100%;
+	overflow-x: auto;
+}
+#tree_left .dtree div {
+	white-space: nowrap;
+
+}
+#tree_left .dtree img {
+	border: 0px;
+	vertical-align: middle;
+}
+#tree_left .dtree a {
+	color: #333;
+	text-decoration: none;
+
+}
+#tree_left .dtree a.node,#tree_left .dtree a.nodeSel {
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+}
+#tree_left .dtree a.node:hover,#tree_left .dtree a.nodeSel:hover {
+	color: #333;
+	text-decoration: underline;
+}
+#tree_left .dtree a.nodeSel {
+	background-color: #c0d2ec;
+}
+#tree_left .dtree .clip {
+	/* overflow: hidden; */
+}

@@ -1,0 +1,3821 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)https://bbs.pediy.com/thread-216969.htm -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	
+	
+
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="XiunoBBS 4.0">
+	<meta name="keywords" content="">
+	<meta name="description" content="[原创]浅析android手游lua脚本的加密与解密">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+
+	<title>
+		[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛	</title>
+
+	<link rel="shortcut icon" href="https://bbs.pediy.com/view/img/favicon.ico">
+	<link rel="icon" sizes="32x32" href="https://bbs.pediy.com/view/img/favicon.ico">
+	<link rel="Bookmark" href="https://bbs.pediy.com/view/img/favicon.ico">
+		<link rel="stylesheet" href="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/bootstrap.min.css">
+	
+	<link rel="stylesheet" href="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/kanxue.css">
+	<style>
+		#search_form {
+			width: 250px;
+			display: inline-block;
+			position: relative;
+			padding: 0px;
+		}
+		
+		#search_form>input {
+			border-radius: 50px;
+			width: 250px;
+			display: inline-block;
+			text-indent: 32px;
+			background: #b6c6d2;
+			color: #5B8096;
+			border: 1px solid #8b969c;
+			padding: 2px !important;
+			font-size: 12.8px;
+			margin-top: 4px;
+			outline: 0;
+		}
+		
+		#search_form>input:focus {
+			background-color: #d5e4ef;
+		}
+		
+		#search_form>input::-webkit-input-placeholder {
+			color: #6a7e8c;
+		}
+		
+		#search_form>input:-moz-placeholder {
+			color: #6a7e8c;
+		}
+		
+		#search_form>input::-moz-placeholder {
+			color: #6a7e8c;
+		}
+		
+		#search_form>input:-ms-input-placeholder {
+			color: #6a7e8c;
+		}
+		
+		#search_form>span.icon-search {
+			position: absolute;
+			left: 10px;
+			top: 4px;
+			line-height: 25px;
+		}
+	</style>
+
+	    <link rel="stylesheet" href="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/user_tree.css" type="text/css">
+    <link rel="stylesheet" href="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/folder-tree.css" type="text/css">
+<style>
+/*
+box-shadow: 0 0 5px red;
+*/
+@keyframes xndigest {
+	0% { color: red; text-shadow: 0 0 3px #FF8D8D;} 
+	20% { color: orange; text-shadow: 0 0 3px #FFE1AD;} 
+	40% { color: green; text-shadow: 0 0 3px #B3FFAF;} 
+	65% { color: blue; text-shadow: 0 0 3px #AFE4FF;} 
+	80% { color: purple; text-shadow: 0 0 3px #FFC9F3;} 
+	100% { color: red; text-shadow: 0 0 3px #FF8D8D;} 
+}
+
+/*水晶闪烁效果 占内存*/
+i.icon-diamond.flash{color: #D53D38;  /*animation: xndigest 5s linear infinite;*/ }
+
+i.icon-digest-1 {  text-shadow: 0 0 3px #AFE4FF; }
+i.icon-digest-2 {  text-shadow: 0 0 3px #FFF177; }
+i.icon-digest-3 {  text-shadow: 0 0 3px #FF8D8D; }
+.icon-digest-1:before { content: "\f219";  color: #5BC0DE;} /* "\f0a5" */
+.icon-digest-2:before { content: "\f219";  color: #ECA541;}
+.icon-digest-3:before { content: "\f219"; color: #D53D38;}
+.icon-digest-3:afteer { content: "精"; color: #D53D38;}
+</style><style>
+.deleted div.subject > a { text-decoration: line-through; color: grey !important; }
+.deleted div.message { text-decoration: line-through; color: grey !important; }
+</style><style>
+.icon-new { width: 26px; height: 12px; display: inline-block; background: url(view/img/new.gif)}
+</style>
+<link rel="stylesheet" type="text/css" href="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/syntax.css"><script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/syntax.js.下载"></script><script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/ga.js.下载"></script></head>
+
+<body>
+
+	
+
+	<div id="wrapper">
+
+		
+
+		<nav class="navbar navbar-dark bg-inverse navbar-full" id="header">
+		
+	<!-- PC 导航 -->
+	<div class="collapse navbar-toggleable-md">
+		<div class="row" style="margin: 0px;">
+			<!-- 左侧：版块区域 -->
+			<div class="col-md-8">
+				<ul class="nav navbar-nav" id="nav_pc">
+					<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/"><img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/logo_small.gif" width="21" height="20"></a></li>
+					<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/">学院</a></li>
+					<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/chm.htm">知识库</a></li>
+					<li class="nav-item"><a class="nav-link" href="https://zhuanlan.kanxue.com/">专栏</a></li>
+					<li class="nav-item"><a class="nav-link" href="https://ctf.pediy.com/">CTF</a></li>
+					<li class="nav-item"><a class="nav-link" href="https://ce.kanxue.com/">众测</a></li>
+					<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/tool.htm">工具</a></li>
+					<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/service.htm">企业服务</a></li>
+					<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/conference.htm" target="_blank">看雪峰会</a></li>
+					<li class="nav-item active"><a class="nav-link" href="https://bbs.pediy.com/">论坛</a></li>
+				</ul>
+			</div>
+			<!-- 右侧：用户区域-->
+			<div class="col-md-4">
+				<ul class="nav navbar-nav pull-right">
+				
+					
+					
+					<!-- 游客 -->
+										
+					<li class="nav-item"><a class="nav-link" href="https://bbs.pediy.com/user-login.htm">登录</a></li>
+					<li class="nav-item"><a class="nav-link" href="https://bbs.pediy.com/user-create.htm">注册</a></li>
+					
+					<!-- 登陆用户 -->
+										
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 手机导航 -->
+
+	<table width="100%" class="hidden-lg-up navbar-nav">
+		<tbody><tr>
+			<td width="100">
+							<div class="nav-item">
+					<a class="nav-link icon-chevron-left xn-back" href="javascript:history.back();" aria-label="返回"></a>
+				</div>
+					
+			</td>
+			<td>
+				<a class="nav-link text-center" href="https://bbs.pediy.com/forum-161.htm">
+									『Android安全』								</a>
+			</td>
+			<td width="100" align="right">
+									<a class="nav-link m-r-xs" href="https://bbs.pediy.com/user-login.htm" aria-label="登录"> <i class="icon-user icon-2x"></i></a>
+				
+			</td>
+		</tr>
+	</tbody></table>
+
+
+	<!-- 手机导航：下拉菜单 mobile navigation drop menu -->
+	<div class="collapse" id="mobile_collapsing_bavbar" style="overflow: hidden;">
+		<div class="p-a-1">
+			<ul class="nav navbar-nav" id="nav_mobile">
+			
+				<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/"><i class="icon-home"></i> 学院</a></li>
+				<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/chm.htm"><i class="icon-graduation-cap"></i> 知识库</a></li>
+				<li class="nav-item"><a class="nav-link" href="https://zhuanlan.kanxue.com/"><i class="icon-book"></i> 专栏</a></li>
+				<li class="nav-item"><a class="nav-link" href="https://ctf.pediy.com/"><i class="icon-medkit"></i> CTF</a></li>
+				<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/tool.htm"><i class="icon-wrench"></i> 工具</a></li>
+				<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/service.htm"><i class="icon-building"></i> 企业服务</a></li>
+				<li class="nav-item"><a class="nav-link" href="https://www.kanxue.com/conference.htm"><i class="icon-plane"></i> 看雪峰会</a></li>
+
+				<li class="nav-item active"><a class="nav-link" href="https://bbs.pediy.com/"><i class="icon-comment"></i> 论坛</a></li>
+				<li class="nav-item"><a class="nav-link" href="https://bbs.pediy.com/search.htm"><i class="icon-search"></i> 搜索</a></li>
+				
+				<!-- 个人资料 / profile -->
+								
+				<!-- 后台 / background -->
+								
+				<!-- 退出 / logout-->
+				
+				<br>
+			</ul>
+		</div>
+	</div>
+	
+</nav>
+
+		<div class="hidden-md-down" style="height: 76px; background:#748692 url(plugin/kanxue/img/header_bg.gif)" id="nav2">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+						<a href="https://bbs.pediy.com/"><img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/logo_bbs.png" width="359" height="76" class="m-l-1"></a>
+					</div>
+					<div class="col-lg-6 text-right p-t-2">
+						<form action="https://bbs.pediy.com/search.htm" id="search_form">
+							<input type="text" placeholder="关键词 回车搜索" name="keyword">
+							<span class="icon-search"></span>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div style="background: #e8ecef url(plugin/kanxue/img/body_bg.jpg) repeat-x" id="body">
+			<div class="container">
+
+
+
+
+				
+
+						
+		
+		<ol class="breadcrumb m-b-sm hidden-md-down">
+			<li class="breadcrumb-item"><a href="https://bbs.pediy.com/" aria-label="首页"><i class="icon-home"></i> 看雪论坛</a></li>
+			<li class="breadcrumb-item"><a href="https://bbs.pediy.com/forum-161.htm">『Android安全』</a></li>
+			<!-- <li class="breadcrumb-item active"><a href="thread-216969.htm" title="首页返回主题第一页">[原创]浅析android手游lua脚本的加密与解密</a></li> -->
+			
+
+							<a href="https://bbs.pediy.com/thread-create-161.htm" role="button" class="btn btn-sm btn-primary" style="float: right;">发新帖</a>
+					</ol>
+		
+	
+		<div class="card card-block">
+			<dl class="row">
+				<dt class="vtop" style="width: 56px; text-align: center;">
+					<div class="avatar_info">
+						<a href="https://bbs.pediy.com/user-749321.htm" aria-hidden="true" tabindex="-1">
+							<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+						</a>
+						<div>
+							<span class="group group-102" title="二级"></span>
+						</div>
+						<div class="text-grey text-tiny" style="text-align: center; margin-top: -6px; ">
+														<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 1</span>
+													</div>
+						
+					</div>
+				</dt>
+				<!--
+				<dd class="vtop" style="width: 100px;">
+					<div class="text-grey" style="font-size: 9px; margin-top: 4px;">
+						注册：2017-4 <br>
+						帖子：12 <br>
+												精华：<span class="text-danger text-bold">1</span> <br>
+												<span class="hidden-md-down" title="级别：5 | 在线时长：10天 | 升级还需要：16小时"><img src="plugin/kanxue/img/moon.gif" width="13" height="13" style="opacity: 0.65" /><img src="plugin/kanxue/img/star.gif" width="13" height="13" style="opacity: 0.65" /></span>
+					</div>
+				</dd>
+				-->
+				<dd class="vtop">
+					
+					<h3 class="break-all subject">
+												
+																								[原创]浅析android手游lua脚本的加密与解密																		
+												
+			<i class="icon-digest-3" aria-hidden="true" title="精华"></i>
+							
+					</h3>
+					
+					<dl class="row small">
+						<dt style="padding: 0px;">
+							
+							<span class="username text-bold">
+								<a href="https://bbs.pediy.com/user-749321.htm">littleNA</a>
+							</span>
+							
+							
+							<span class="date text-grey m-l-1">2017-4-11 16:01</span>
+							<span class="text-grey m-l-1 hidden-md-down"><i class="icon-eye" aria-hidden="true"></i> 16296</span>
+							
+						</dt>
+						<dd class="text-right">
+														
+																					
+														
+													</dd>
+					</dl>
+														</dd>
+			</dl>
+			<hr aria-hidden="true">
+			<div class="message break-all" isfirst="1">
+						
+				
+				<p>											</p><p>											</p><p>											</p><p>											</p><p>											</p><p>											</p><p>											</p><p>											</p><p><span style="font-size:16px;"><strong>2017.04.15更新</strong></span></p><p>1. 在编辑过程中，5.1后半段内容（解密和反编译部分）被删除了，现在补上。</p><p>2. 在3.3里说到，“修改lua项目中的opcode后，编译生成lua.exe再替换到反编译目录下，就可以反编译”，这一句是错误的，正确是“修改lua项目中的opcode后，重新编译反编译工具luadec51项目，就可以反编译了”，已经修改。</p><p><span style="font-size:16px;"><strong><br></strong></span></p><p><span style="font-size:16px;"><strong>0.前言</strong></span></p><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这篇文章是本人在学习android手游安全时总结的一篇关于lua的<span style="background-color:rgb(0, 0, 0);"></span>文章，不足之处欢迎指正，也欢迎大牛前来交流。本文目录如下：</div><div style="padding:8px; border:1px solid rgba(0, 0, 0, 0.14902); color:rgb(51, 51, 51); font-family:none; font-size:12px; background-color:rgb(251, 250, 248);"><div>目录</div><div>0. 前言</div><div>1. lua脚本在手游中的现状</div><div>2. lua、luac、luaJIT三种文件的关系</div><div>3. lua脚本的保护</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1 普通的对称加密，在加载脚本之前解密</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.2 将lua脚本编译成luaJIT字节码并且加密打包</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.3 修改lua虚拟机中opcode的顺序</div><div>4. 获取lua代码的一般方法</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.1 静态分析so解密方法</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.2 动态调试：ida + idc + dump</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.3 hook so</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.4 分析lua虚拟机的opcode的顺序</div><div>5. 三个游戏的lua脚本解密过程</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.1 54捕鱼</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.2 捕鱼达人4</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.3 梦幻西游手游</div><div>6. 总结</div><div>参考文章</div></div><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp; &nbsp; 主要用到的工具和环境：</p><div style="padding:8px; border:1px solid rgba(0, 0, 0, 0.14902); color:rgb(51, 51, 51); font-family:none; font-size:12px; background-color:rgb(251, 250, 248);"><div>1 win7系统一枚</div><div>2 quick-cocos2d-x的开发环境（弄一个开发环境方便学习，而且大部分lua手游都是用的cocos2d-x框架，还有一个好处，可以查看源码关键函数中的特征字符串，然后在IDA定位到关键函数，非常方便）</div><div>3 IDA6.8（分析so文件+动态调试so）</div><div>4 vs2015（编写解密代码）这里建议用vs2013来编译运行cocos2d-x，vs2015太多坑要填了.....</div><div>5 AndroidKiller 1.3.1（反编译apk，其中apktool.exe是最新版）</div><div>6 luadec51（反编译luac）</div><div>7 luajit-decomp（反编译luaJIT）</div><div>等等...</div></div><div>&nbsp; &nbsp;&nbsp;</div><div><span style="font-size:16px;"><strong>1.lua脚本在手游中的现状</strong></span></div><div>&nbsp; &nbsp; &nbsp;略。</div><div><span style="font-size:16px;"><strong>2.lua、luac、luaJIT三种文件的关系</strong></span></div><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在学习lua手游过程中，本人遇到的lua文件大部分是这3种。其中lua是明文代码，直接用记事本就能打开，luac是lua编译后的字节码，文件头为0x1B 0x4C 0x75 0x61 0x51，lua虚拟机能够直接解析lua和luac脚本文件，而luaJIT是另一个lua的实现版本（不是原作者写的），JIT是指Just-In-Time（即时解析运行），luaJIT相比lua和luac更加高效，文件头是0x1B 0x4C 0x4A。</p><p><br></p><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;luac：</div><p><img width="565" height="35" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_io942c42ktpmolc.png" class="div_message_boxShadow" style="cursor: pointer;">&nbsp;&nbsp;&nbsp;&nbsp;</p><p><br></p><p>&nbsp; &nbsp; &nbsp;luajit：</p><div><img width="560" height="36" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_poy02s9sq5aro8h.png" class="div_message_boxShadow" style="cursor: pointer;">&nbsp; &nbsp; &nbsp;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div><span style="font-size:16px;"><strong>3.lua脚本的保护</strong></span></div><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一般有安全意识的游戏厂商都不会直接把lua源码脚本打包到APK中发布，所以一般对lua脚本的保护有下面3种：</p><p><br></p><div>3.1 普通的对称加密，在加载脚本之前解密</div><p>&nbsp; &nbsp; &nbsp;这种情况是指打包在APK中的lua代码是加密过的，程序在加载lua脚本时解密（关键函数luaL_loadbuffer ），解密后就能够获取lua源码。如果解密后获取的是luac字节码的话，也可以通过反编译得到lua源码，反编译主要用的工具有unluac和luadec51，后面会具体分析。</p><p><br></p><div>3.2 将lua脚本编译成luaJIT字节码并且加密打包</div><p>&nbsp; &nbsp;&nbsp; 因为反编译的结果并不容易查看，所以这种情况能够较好的保护lua源码。这个情况主要是先解密后反编译，反编译主要是通过luajit-decomp项目，它能够将luajit字节码反编译成伪lua代码。</p><p><br></p><div>3.3 修改lua虚拟机中opcode的顺序</div><p>&nbsp; &nbsp; &nbsp;这种情况主要是修改lua虚拟机源码，再通过修改过的虚拟机将lua脚本编译成luac字节码，达到保护的目的。这种情况如果直接用上面的反编译工具是不能将luac反编译的，需要在程序中分析出相对应的opcode，然后修改lua项目的opcode的顺序并重新编译生成反编译工具，就能反编译了，后面会具体分析。 &nbsp; &nbsp;&nbsp;</p><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一般上面的情况都会交叉遇到。</p><p><br></p><div><span style="font-size:16px;"><strong>4.获取lua源码的一般方法</strong></span></div><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这里主要介绍4种方法，都会在第5节中用实例说明。</p><p><br></p><div>4.1 静态分析so解密方法</div><p>&nbsp; &nbsp; &nbsp;这种方法需要把解密的过程全部分析出来，比较费时费力，主要是通过ida定位到luaL_loadbuffer函数，然后往上回溯，分析出解密的过程。</p><p><br></p><div>4.2 动态调试：ida + idc + dump</div><p>&nbsp; &nbsp; &nbsp;这里主要通过ida动态调试so文件，然后是定位到luaL_loadbuffer地址，游戏会在启动的时候通过调用luaL_loadbuffer函数加载必要的lua脚本，通过在luaL_loadbuffer下断点 ，断下后就可以运行idc脚本将lua代码导出（程序调用一次luaL_loadbuffer加载一个lua脚本，不写idc脚本的话需要手动导N多遍.....）。</p><p><br></p><div>4.3 hook so</div><p>&nbsp; &nbsp; &nbsp;跟4.2原理一样，就是通过hook函数luaL_loadbuffer地址，将代码保存，相比4.2的好处是有些lua脚本需要在玩游戏的过程中才加载，如果用了4.2的方法，游戏过程中 中断一次就需要手动运行一次idc脚本，而且往往每次只加载一个lua文件，如果是hook的话，就不需要那么麻烦，直接玩一遍游戏，全部lua脚本就已经保存好了。</p><p><br></p><div>4.4 分析lua虚拟机的opcode的顺序</div><p>&nbsp; &nbsp; &nbsp;这里主要是opcode的顺序被修改了，需要用ida定位到虚拟机执行luac字节码的地方，然后对比原来lua虚拟机的执行过程，获取修改后的opcode顺序，最后还原lua脚本。</p><p><br></p><div><span style="font-size:16px;"><strong>5.三个游戏的lua脚本解密实例</strong></span></div><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;好了，下面用3个例子来说明上面的情况。</p><p><br></p><div>5.1 54捕鱼</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先用AndroidKiller 加载，然后查看lib目录下的so文件，发现libcocos2dlua.so文件，基本可以确定是lua脚本编写的了。这里有个小技巧，当有很多so文件的时候，一般最大的文件是我们的目标（文件大是因为集成了lua引擎）。既然有lua引擎，肯定有lua脚本了，接着找lua脚本。资源文件和lua脚本文件都是在assets目录下。发现游戏的资源文件和配置文件都是明文，这里直接修改游戏的配置文件就可以作弊（比如修改升级炮台所需的金币和钻石，就可以达到快速升级炮台的目的），然后并没有发现类似lua脚本的文件。</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;顺手解压了一下res目录下的liveupdate_precompiled.zip，发现解压失败，看来是加密了（看名字就知道是更新游戏的代码）这里说明一下，一般遇到xxxx_precompiled.zip的这种文件，都是quick-cocos2d-x框架（quick简单来说就是对lua的拓展实现），在quick-cocos2d-x框架下可以用compile_scripts命令将lua文件加密打包成xxxx_precompiled.zip，游戏运行时再解密加载。注意，这种方式打包的lua脚本一般都会被编译成luaJIT，加载的关键函数是loadChunksFromZIP，可以在IDA中直接搜索该函数，如果找不到可以搜索字符串luaLoadChunksFromZIP来定位到函数</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OK，了解了原理接下来开始动手分析，将libcocos2dlua.so拖到IDA中加载，函数中直接搜索loadChunksFromZIP，定位后F5。</div><p><img width="1200" height="426" style="width: 100%; height: 423px; cursor: pointer;" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_eyind98fusph888.png" class="div_message_boxShadow">&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp; &nbsp; &nbsp;一直向上回溯（交叉引用 ），来到下图，发现解密的密钥和签名，其中xiaoxian为密钥，XXFISH为签名</p><p><img width="1036" height="439" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_4cj4a6fkzw6je9f.png" class="div_message_boxShadow" style="cursor: pointer;"></p><p>&nbsp; &nbsp;&nbsp;</p><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;进去函数里面看看，其实会发现调用了XXTea算法，这里我们也可以直接分析loadChunksFromZIP函数的源码（所以配置一个cocos2d的开发环境还是非常有必要的）。查看源码里的lua_loadChunksFromZIP函数的原型：</div><div><table border="0" cellpadding="0" cellspacing="0" class="syntaxhighlighter  cpp"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">CCLuaStack::lua_loadChunksFromZIP(lua_State&nbsp;*L)</code></div><div class="line number2 index1 alt1"><code class="cpp plain">{</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(lua_gettop(L)&nbsp;&lt;&nbsp;1)</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;这里可以发现用字符串也可以定位到目标函数</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">CCLOG(</code><code class="cpp string">"lua_loadChunksFromZIP()&nbsp;-&nbsp;invalid&nbsp;arguments"</code><code class="cpp plain">);</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">return</code>&nbsp;<code class="cpp plain">0;</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number8 index7 alt1"><code class="cpp plain">...</code></div><div class="line number9 index8 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(isXXTEA)</code></div><div class="line number10 index9 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number11 index10 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;decrypt&nbsp;XXTEA</code></div><div class="line number12 index11 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;这里调用了解密函数</code></div><div class="line number13 index12 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">xxtea_long&nbsp;len&nbsp;=&nbsp;0;</code></div><div class="line number14 index13 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">buffer&nbsp;=&nbsp;xxtea_decrypt(zipFileData&nbsp;+&nbsp;stack-&gt;m_xxteaSignLen,</code></div><div class="line number15 index14 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">(xxtea_long)size&nbsp;-&nbsp;(xxtea_long)stack-&gt;m_xxteaSignLen,</code></div><div class="line number16 index15 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">(unsigned&nbsp;</code><code class="cpp color1 bold">char</code><code class="cpp plain">*)stack-&gt;m_xxteaKey,</code></div><div class="line number17 index16 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">(xxtea_long)stack-&gt;m_xxteaKeyLen,</code></div><div class="line number18 index17 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">&amp;len);</code></div><div class="line number19 index18 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">delete</code>&nbsp;<code class="cpp plain">[]zipFileData;</code></div><div class="line number20 index19 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">zipFileData&nbsp;=&nbsp;NULL;</code></div><div class="line number21 index20 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">zip&nbsp;=&nbsp;CCZipFile::createWithBuffer(buffer,&nbsp;len);</code></div><div class="line number22 index21 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number23 index22 alt2"><code class="cpp plain">...</code></div><div class="line number24 index23 alt1"><code class="cpp plain">}</code></div></div></td></tr></tbody></table></div><p>&nbsp;</p><p>&nbsp; &nbsp; 接下来直接写解密函数（在cocos2d-x项目里面写的解密函数，很多工具直接可以调用）</p><table border="0" cellpadding="0" cellspacing="0" class="syntaxhighlighter  cpp"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div class="line number31 index30 alt2">31</div><div class="line number32 index31 alt1">32</div><div class="line number33 index32 alt2">33</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp keyword bold">void</code>&nbsp;<code class="cpp plain">decryptZipFile_54BY(string&nbsp;strZipFilePath)</code></div><div class="line number2 index1 alt1"><code class="cpp plain">{</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">CCFileUtils&nbsp;*utils&nbsp;=&nbsp;CCFileUtils::sharedFileUtils();</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">unsigned&nbsp;</code><code class="cpp color1 bold">long</code>&nbsp;<code class="cpp plain">lZipFileSize&nbsp;=&nbsp;0;</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">unsigned&nbsp;</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">*szBuffer&nbsp;=&nbsp;NULL;</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">unsigned&nbsp;</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">*zipFileData&nbsp;=&nbsp;utils-&gt;getFileData(strZipFilePath.c_str(),&nbsp;</code><code class="cpp string">"rb"</code><code class="cpp plain">,&nbsp;&amp;lZipFileSize);</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">xxtea_long&nbsp;xxBufferLen&nbsp;=&nbsp;0;</code></div><div class="line number8 index7 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">szBuffer&nbsp;=&nbsp;xxtea_decrypt(zipFileData&nbsp;+&nbsp;6,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//6为签名XXFISH的长度</code></div><div class="line number9 index8 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">(xxtea_long)lZipFileSize&nbsp;-&nbsp;(xxtea_long)6,&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//减去签名的长度</code></div><div class="line number10 index9 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">(unsigned&nbsp;</code><code class="cpp color1 bold">char</code><code class="cpp plain">*)</code><code class="cpp string">"xiaoxian"</code><code class="cpp plain">,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//xiaoxian为密钥</code></div><div class="line number11 index10 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">(xxtea_long)8,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//密钥的长度</code></div><div class="line number12 index11 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">&amp;xxBufferLen);</code></div><div class="line number13 index12 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//获取zip里面的所有文件</code></div><div class="line number14 index13 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">CCZipFile&nbsp;*zipFile&nbsp;=&nbsp;CCZipFile::createWithBuffer(szBuffer,&nbsp;xxBufferLen);</code></div><div class="line number15 index14 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">count&nbsp;=&nbsp;0;</code></div><div class="line number16 index15 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">string&nbsp;strFileName&nbsp;=&nbsp;zipFile-&gt;getFirstFilename();</code></div><div class="line number17 index16 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">while</code>&nbsp;<code class="cpp plain">(strFileName.length())</code></div><div class="line number18 index17 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number19 index18 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">cout&nbsp;&lt;&lt;&nbsp;</code><code class="cpp string">"filename:"</code>&nbsp;<code class="cpp plain">&lt;&lt;&nbsp;strFileName&nbsp;&lt;&lt;&nbsp;endl;</code></div><div class="line number20 index19 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">unsigned&nbsp;</code><code class="cpp color1 bold">long</code>&nbsp;<code class="cpp plain">lFileBufferSize&nbsp;=&nbsp;0;</code></div><div class="line number21 index20 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">unsigned&nbsp;</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">*szFileBuffer&nbsp;=&nbsp;zipFile-&gt;getFileData(strFileName.c_str(),&nbsp;&amp;lFileBufferSize);</code></div><div class="line number22 index21 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(lFileBufferSize)</code></div><div class="line number23 index22 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number24 index23 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">++count;</code></div><div class="line number25 index24 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">ofstream&nbsp;ffout(strFileName,&nbsp;ios::binary);</code></div><div class="line number26 index25 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">ffout.write((</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">*)szFileBuffer,&nbsp;</code><code class="cpp keyword bold">sizeof</code><code class="cpp plain">(</code><code class="cpp color1 bold">char</code><code class="cpp plain">)&nbsp;*&nbsp;(lFileBufferSize));</code></div><div class="line number27 index26 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">ffout.close();</code></div><div class="line number28 index27 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">delete</code><code class="cpp plain">[]&nbsp;szFileBuffer;</code></div><div class="line number29 index28 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number30 index29 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">strFileName&nbsp;=&nbsp;zipFile-&gt;getNextFilename();</code></div><div class="line number31 index30 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number32 index31 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">delete</code><code class="cpp plain">[]&nbsp;zipFileData;</code></div><div class="line number33 index32 alt2"><code class="cpp plain">}</code></div></div></td></tr></tbody></table><p>&nbsp; &nbsp;&nbsp;</p><p>&nbsp; &nbsp; 解密后的文件如下：</p><p><img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_co94agt78iuvu3n.png" width="328" height="184" class="div_message_boxShadow" style="cursor: pointer;"></p><div>&nbsp; &nbsp; &nbsp;这几个都是更新游戏的代码，是luajit的文件，所以接下来需要反编译。IDA中查看下lua版本和luajit版本，字符串分别搜索lua+空格和luajit+空格：</div><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;lua版本为5.1</p><p><img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_642kcliy3i2yrev.png" width="812" height="512" class="div_message_boxShadow" style="cursor: pointer;"></p><p><br></p><p>&nbsp; &nbsp; luajit版本为2.1.0</p><p><img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_o52qkvr4j7m502g.png" width="801" height="503" class="div_message_boxShadow" style="cursor: pointer;"></p><p><br></p><p>&nbsp; &nbsp; 反编译本人用到的是luajit-decomp，这里需要注意，luajit-decomp默认的lua版本为5.1，luajit版本为2.0.2，我们需要下载对应lua和luajit的版本，编译后替换luajit-decomp下的lua51.dll、luajit.exe、jit文件夹。反编译时需要注意的文件和文件夹：</p><div><img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_ojz9ik5cllend83.png" width="355" height="347" class="div_message_boxShadow" style="cursor: pointer;"></div><p>&nbsp; &nbsp;&nbsp;</p><p>&nbsp; &nbsp; 这里需要下载版本为2.1.0-beta2的luajit，并且编译生成文件后，复制LuaJIT-2.1.0-beta2\src路径下的lua51.dll、luajit.exe文件和jit文件夹覆盖到luajit-decomp目录中。luajit-decomp用的是autolt3语言，原脚本默认是只反编译当前目录下的test.lua文件，所以需要改一下decoder.au3文件的代码。修改后的代码另存为jitdecomp.au3文件，编译后为jitdecomp.exe。并且增加了data目录，目录下有3个文件夹，分别为：</p><div style="padding:8px; font-family:none; font-size:12px; color:rgb(51, 51, 51); background-color:rgb(251, 250, 248); border:1px solid rgba(0, 0, 0, 0.14902); background-position:initial initial;"><div>luajit：待反编译的luajit文件</div><div>asm：反汇编后的中间结果</div><div>out：反编译后的结果</div></div><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将解密后的文件放到luajit文件夹，运行 <span style="color:rgb(0, 0, 0); font-family:微软雅黑; font-size:12;">jitdecomp.exe，</span>反编译的结果在out目录下，结果如下：</p><div><img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_3rlrkwp48yvc3zd.png" width="1200" height="382" class="div_message_boxShadow" style="cursor: pointer;"></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个反编译工具写得并不好，反编译后的文件阅读起来挺困难的，而且反编译的lua格式有问题，所以不能用lua编辑器格式化代码。</div><p><br></p><p>5.2 捕鱼达人4</p><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个游戏主要是用ida动态调试so文件，然后用idc脚本把lua文件全部dump下来的方法。首先用AndroidKiller加载apk，在lib目录下有3个文件夹，不同的手机cpu型号对应不同的文件夹 。本人的手机加载的目标so文件在armeabi-v7a文件下：</div><p><img width="266" height="160" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_qte9otubbtpm6wy.png" class="div_message_boxShadow" style="cursor: pointer;"></p><p><br></p><p>&nbsp; &nbsp; &nbsp;接着，ida加载libcocos2dlua.so文件，定位到函数luaL_loadbuffer，可以在函数中直接搜索，也可以字符串搜索"[LUA ERROR]"来定位到函数中，函数分析如下：</p><div style="padding:8px; border:1px solid rgba(0, 0, 0, 0.14902); color:rgb(51, 51, 51); font-family:none; font-size:12px; background-color:rgb(251, 250, 248);">LUALIB_API int luaL_loadbuffer (lua_State *L, const char *buff, size_t size,const char *name)</div><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所以在ARM汇编中，参数R0为lua_State指针，参数R1为脚本内容，R2为脚本大小，R3为脚本的名称，写一段IDC脚本dump数据即可：</p><table border="0" cellpadding="0" cellspacing="0" class="syntaxhighlighter  cpp"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div class="line number31 index30 alt2">31</div><div class="line number32 index31 alt1">32</div><div class="line number33 index32 alt2">33</div><div class="line number34 index33 alt1">34</div><div class="line number35 index34 alt2">35</div><div class="line number36 index35 alt1">36</div><div class="line number37 index36 alt2">37</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp preprocessor">#include&nbsp;&lt;idc.idc&gt;</code></div><div class="line number2 index1 alt1"><code class="cpp keyword bold">static</code>&nbsp;<code class="cpp plain">main()</code></div><div class="line number3 index2 alt2"><code class="cpp plain">{</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">auto</code>&nbsp;<code class="cpp plain">code,&nbsp;bp_addrese,fp,strPath,strFileName;</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">bp_addrese&nbsp;=&nbsp;0x7573022C;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;luaL_loadbuffer函数地址&nbsp;，静态分析获取的函数地址+so文件的地址得到</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">AddBpt(bp_addrese);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;下断点，也可以手动下断</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">while</code><code class="cpp plain">(1)</code></div><div class="line number8 index7 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number9 index8 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">code&nbsp;=&nbsp;GetDebuggerEvent(WFNE_SUSP|WFNE_CONT,&nbsp;15);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;等待断点发生，等待时间为15秒</code></div><div class="line number10 index9 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(&nbsp;code&nbsp;&lt;=&nbsp;0&nbsp;)</code></div><div class="line number11 index10 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number12 index11 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">Warning(</code><code class="cpp string">"错误代码：%d"</code><code class="cpp plain">,code);</code></div><div class="line number13 index12 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">return</code>&nbsp;<code class="cpp plain">0;</code></div><div class="line number14 index13 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number15 index14 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">Message&nbsp;(</code><code class="cpp string">"地址：%a,&nbsp;事件id：%x\n"</code><code class="cpp plain">,&nbsp;GetEventEa(),&nbsp;GetEventId());&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;断点发生，打印消息</code></div><div class="line number16 index15 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">strFileName&nbsp;=&nbsp;GetString(GetRegValue(</code><code class="cpp string">"R3"</code><code class="cpp plain">),-1,0);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;获取文件路径名</code></div><div class="line number17 index16 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">strFileName&nbsp;=&nbsp;substr(strFileName,strrstr(strFileName,</code><code class="cpp string">"/"</code><code class="cpp plain">)+1,-1);&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;获取最后一个‘/’后面的名字（文件的名字）去掉路径</code></div><div class="line number18 index17 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">strPath&nbsp;=&nbsp;</code><code class="cpp functions bold">sprintf</code><code class="cpp plain">(</code><code class="cpp string">"c:\\lua\\%s"</code><code class="cpp plain">,strFileName);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;保存lua的本地路径</code></div><div class="line number19 index18 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">fp&nbsp;=&nbsp;</code><code class="cpp functions bold">fopen</code><code class="cpp plain">(strPath,</code><code class="cpp string">"wb"</code><code class="cpp plain">);</code></div><div class="line number20 index19 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">savefile(fp,0,GetRegValue(</code><code class="cpp string">"R1"</code><code class="cpp plain">),GetRegValue(</code><code class="cpp string">"R2"</code><code class="cpp plain">));</code></div><div class="line number21 index20 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">fclose</code><code class="cpp plain">(fp);</code></div><div class="line number22 index21 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">Message(</code><code class="cpp string">"保存文件成功:&nbsp;%s\n"</code><code class="cpp plain">,strPath);</code></div><div class="line number23 index22 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number24 index23 alt1"><code class="cpp plain">}</code></div><div class="line number25 index24 alt2"><code class="cpp comments">//字符串查找函数，从后面向前查找，返回第一次查找的字符串下标</code></div><div class="line number26 index25 alt1"><code class="cpp keyword bold">static</code>&nbsp;<code class="cpp plain">strrstr(str,substr1)</code></div><div class="line number27 index26 alt2"><code class="cpp plain">{</code></div><div class="line number28 index27 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">auto</code>&nbsp;<code class="cpp plain">i,index;</code></div><div class="line number29 index28 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">index&nbsp;=&nbsp;-1;</code></div><div class="line number30 index29 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">while</code>&nbsp;<code class="cpp plain">(1)</code></div><div class="line number31 index30 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number32 index31 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">i&nbsp;=&nbsp;</code><code class="cpp functions bold">strstr</code><code class="cpp plain">(str,substr1);</code></div><div class="line number33 index32 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(-1&nbsp;==&nbsp;i)&nbsp;</code><code class="cpp keyword bold">return</code>&nbsp;<code class="cpp plain">index;</code></div><div class="line number34 index33 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">str&nbsp;=&nbsp;substr(str,i+1,-1);</code></div><div class="line number35 index34 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">index&nbsp;=&nbsp;index+i+1;</code></div><div class="line number36 index35 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">};</code></div><div class="line number37 index36 alt2"><code class="cpp plain">}</code></div></div></td></tr></tbody></table><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ida动态调试so文件网上有很多文章，这里就不详细说明了。通过idc脚本获取的部分数据如下：</p><div><img width="1148" height="485" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_8kg8bhyftkxpbcq.png" class="div_message_boxShadow" style="cursor: pointer;"></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;虽然文件的后缀名是.luac，但其实都是明文的lua脚本。</div><p><br></p><p>5.3.梦幻西游手游</p><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AndroidKiller反编译apk，查看lib下存在libcocos2dlua.so，基本上确定是lua写的：</div><p><img width="369" height="433" style="height: 317px; cursor: pointer;" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_wrh7agrmbosnelp.png" class="div_message_boxShadow"></p><p><br></p><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在assets\HashRes目录下，存在很多被加密的文件，这里存放的是lua脚本和游戏的其他资源文件</div><p><img width="225" height="551" style="height: 387px; cursor: pointer;" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_zi1trak69k1996l.png" class="div_message_boxShadow"></p><p><br></p><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接着找lua脚本的解密过程，用ida加载libcocos2dlua.so文件，搜索luaL_loadbuffer函数，定位到关键位置，这里就是解密的过程了：</div><div><img width="831" height="928" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_3eely9100d2uq0u.png" class="div_message_boxShadow" style="cursor: pointer;"></div><div>&nbsp;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分析解密lua文件过程如下：</div><div><img width="1200" height="356" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_qzofr9jvn3yqdny.png" class="div_message_boxShadow" style="cursor: pointer;"></div><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;这里需要实现Lrc4解密的相关函数，还有Lzma解压函数需要自己实现，其他几个都是cocos2d平台自带的函数，直接调用就可以了。上面的流程图实现的函数如下：</p><table border="0" cellpadding="0" cellspacing="0" class="syntaxhighlighter  cpp   "><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div><div class="line number31 index30 alt2">31</div><div class="line number32 index31 alt1">32</div><div class="line number33 index32 alt2">33</div><div class="line number34 index33 alt1">34</div><div class="line number35 index34 alt2">35</div><div class="line number36 index35 alt1">36</div><div class="line number37 index36 alt2">37</div><div class="line number38 index37 alt1">38</div><div class="line number39 index38 alt2">39</div><div class="line number40 index39 alt1">40</div><div class="line number41 index40 alt2">41</div><div class="line number42 index41 alt1">42</div><div class="line number43 index42 alt2">43</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp color1 bold">bool</code>&nbsp;<code class="cpp plain">decryptLua_Mhxy(string&nbsp;strFilePath,&nbsp;string&nbsp;strSaveDir)</code></div><div class="line number2 index1 alt1"><code class="cpp plain">{</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">bool</code>&nbsp;<code class="cpp plain">bResult&nbsp;=&nbsp;</code><code class="cpp keyword bold">false</code><code class="cpp plain">;</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">*szBuffer&nbsp;=&nbsp;NULL;</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">nBufferSize&nbsp;=&nbsp;0;</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">CCFileUtils&nbsp;*utils&nbsp;=&nbsp;CCFileUtils::sharedFileUtils();</code></div><div class="line number7 index6 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">unsigned&nbsp;</code><code class="cpp color1 bold">long</code>&nbsp;<code class="cpp plain">ulFileSize&nbsp;=&nbsp;0;</code></div><div class="line number8 index7 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">*szFileData&nbsp;=&nbsp;(</code><code class="cpp color1 bold">char</code><code class="cpp plain">*)utils-&gt;getFileData(strFilePath.c_str(),&nbsp;</code><code class="cpp string">"rb"</code><code class="cpp plain">,&nbsp;&amp;ulFileSize);</code></div><div class="line number9 index8 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(</code><code class="cpp functions bold">strncmp</code><code class="cpp plain">(szFileData,&nbsp;</code><code class="cpp string">"L:grxx"</code><code class="cpp plain">,&nbsp;6))</code></div><div class="line number10 index9 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number11 index10 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(!</code><code class="cpp functions bold">strncmp</code><code class="cpp plain">(szFileData,&nbsp;</code><code class="cpp string">"__sign_of_g18_enc__"</code><code class="cpp plain">,&nbsp;0x13))</code></div><div class="line number12 index11 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number13 index12 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">szBuffer&nbsp;=&nbsp;szFileData&nbsp;+&nbsp;0x13;</code></div><div class="line number14 index13 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">nBufferSize&nbsp;=&nbsp;ulFileSize&nbsp;-&nbsp;0x13;</code></div><div class="line number15 index14 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">bResult&nbsp;=&nbsp;decrypt((unsigned&nbsp;</code><code class="cpp color1 bold">char</code><code class="cpp plain">*)szBuffer,&nbsp;nBufferSize);</code></div><div class="line number16 index15 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number17 index16 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number18 index17 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">else</code>&nbsp;<code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(!</code><code class="cpp functions bold">strncmp</code><code class="cpp plain">(szFileData&nbsp;+&nbsp;6,&nbsp;</code><code class="cpp string">"__sign_of_g18_enc__"</code><code class="cpp plain">,&nbsp;0x13))</code></div><div class="line number19 index18 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number20 index19 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">unsigned&nbsp;</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">*pData&nbsp;=&nbsp;(unsigned&nbsp;</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">*)szFileData&nbsp;+&nbsp;0x19;</code></div><div class="line number21 index20 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">nLen&nbsp;=&nbsp;ulFileSize&nbsp;-&nbsp;0x19;</code></div><div class="line number22 index21 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">bResult&nbsp;=&nbsp;decrypt(pData,&nbsp;nLen);</code></div><div class="line number23 index22 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(ZipUtils::isGZipBuffer(pData,&nbsp;nLen))</code></div><div class="line number24 index23 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number25 index24 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">nBufferSize&nbsp;=&nbsp;ZipUtils::ccInflateMemory(pData,&nbsp;nLen,&nbsp;(unsigned&nbsp;</code><code class="cpp color1 bold">char</code><code class="cpp plain">**)&amp;szBuffer);</code></div><div class="line number26 index25 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number27 index26 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">else</code>&nbsp;<code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(ZipUtils::isCCZBuffer(pData,&nbsp;nLen))</code></div><div class="line number28 index27 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number29 index28 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">nBufferSize&nbsp;=&nbsp;ZipUtils::inflateCCZBuffer(pData,&nbsp;nLen,&nbsp;(unsigned&nbsp;</code><code class="cpp color1 bold">char</code><code class="cpp plain">**)&amp;szBuffer);</code></div><div class="line number30 index29 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number31 index30 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">else</code>&nbsp;<code class="cpp keyword bold">if</code>&nbsp;<code class="cpp plain">(LzmaUtils::isLzmaBuffer(pData,&nbsp;nLen))</code></div><div class="line number32 index31 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number33 index32 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">nBufferSize&nbsp;=&nbsp;LzmaUtils::inflateLzmaBuffer(pData,&nbsp;nLen,&nbsp;(unsigned&nbsp;</code><code class="cpp color1 bold">char</code><code class="cpp plain">**)&amp;szBuffer);</code></div><div class="line number34 index33 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number35 index34 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">else</code></div><div class="line number36 index35 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">{</code></div><div class="line number37 index36 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">bResult&nbsp;=&nbsp;</code><code class="cpp keyword bold">false</code><code class="cpp plain">;</code></div><div class="line number38 index37 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number39 index38 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">}</code></div><div class="line number40 index39 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">if</code><code class="cpp plain">(bResult)</code></div><div class="line number41 index40 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">saveLuaData(szBuffer,&nbsp;nBufferSize,&nbsp;strSaveDir);</code></div><div class="line number42 index41 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">return</code>&nbsp;<code class="cpp plain">bResult;</code></div><div class="line number43 index42 alt2"><code class="cpp plain">}</code></div></div></td></tr></tbody></table><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;解密函数过程如下：</p><div><img width="1198" height="510" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_jwppzra1olyixkd.png" class="div_message_boxShadow" style="cursor: pointer;"></div><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decrypt()实现代码如下：</p><table border="0" cellpadding="0" cellspacing="0" class="syntaxhighlighter  cpp"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp color1 bold">bool</code>&nbsp;<code class="cpp plain">decrypt(unsigned&nbsp;</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">*pData,&nbsp;</code><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">nLen)</code></div><div class="line number2 index1 alt1"><code class="cpp plain">{</code></div><div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">Lrc4&nbsp;*pLrc4&nbsp;=&nbsp;</code><code class="cpp keyword bold">new</code>&nbsp;<code class="cpp plain">Lrc4;</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">Lrc4_lrc4(pLrc4);</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">Lrc4_s(pLrc4,&nbsp;pData,&nbsp;nLen);</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp keyword bold">return</code>&nbsp;<code class="cpp keyword bold">true</code><code class="cpp plain">;</code></div><div class="line number7 index6 alt2"><code class="cpp plain">}</code></div></div></td></tr></tbody></table><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;Lrc4结构如下:</p><table border="0" cellpadding="0" cellspacing="0" class="syntaxhighlighter  cpp"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp preprocessor">#define&nbsp;DATA_SIZE&nbsp;256</code></div><div class="line number2 index1 alt1"><code class="cpp keyword bold">struct</code>&nbsp;<code class="cpp plain">Lrc4</code></div><div class="line number3 index2 alt2"><code class="cpp plain">{</code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">unsigned&nbsp;</code><code class="cpp color1 bold">char</code>&nbsp;<code class="cpp plain">pData[DATA_SIZE];&nbsp;&nbsp;</code><code class="cpp comments">//初始化时计算得到的256个字节</code></div><div class="line number5 index4 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">nIndex;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//记录下标</code></div><div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">nPreIndex;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//记录前一个下标</code></div><div class="line number7 index6 alt2"><code class="cpp plain">};</code></div></div></td></tr></tbody></table><p><br></p><p>&nbsp; &nbsp; &nbsp;其他函数的具体实现请看DecryptData_Mhxy.cpp文件，这里就不贴代码了。解密后的文件如下：<br></p><div><img width="881" height="279" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_qgx8r5bbtqm593g.png" class="div_message_boxShadow" style="cursor: pointer;"></div><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以看出，解密后的文件为luac字节码，但是这里直接用反编译工具是不能反编译luac字节码的，因为游戏的opcode被修改过了，我们需要找到游戏opcode的顺序，然后生成一个对应opcode的luadec.exe文件才能反编译。下表为修改前后的opcode：</p><div><img width="359" height="782" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_rs6ei2r5sv06ndl.png" class="div_message_boxShadow" style="cursor: pointer;"></div><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lua虚拟机的相关内容就不说明了，百度很多，这里说明下如何还原opcode的顺序。首先需要定位到opmode的地方，IDA搜索字符串"LOADK"，定位到opname的地方，交叉引用到代码，找到opmode：</p><div><img width="336" height="95" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_waxd4v2ym63666n.png" class="div_message_boxShadow" style="cursor: pointer;"></div><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;off_B02CEC为opname的地址，byte_A67C00为opmode的地址，进入opmode地址查看：</p><div><img width="333" height="455" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_9go51kmzzfl03bl.png" class="div_message_boxShadow" style="cursor: pointer;"></div><div>&nbsp; &nbsp;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这里没有把全部数据截图出来，可以看出，这里的opmode跟原opmode是不对应的。原opmode在lua源码中的lopcodes.c文件中：</div><div><img width="632" height="403" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_pjdppny7ok3f0yi.png" class="div_message_boxShadow" style="cursor: pointer;"></div><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源码用了宏，计算出来的结果就是上表中opmode的结果。这里对比opmode就可以快速对比出opcode，因为opmode不相等，那么opcode也肯定不相等，到这一步，已经能还原部分opcode了，因为有一些opmode是唯一的。比如下面几个：</p><div><img width="412" height="124" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_yix7eo9jztglvsr.png" class="div_message_boxShadow" style="cursor: pointer;"></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如SETLIST，原opcode为34，opmode为0x14，找到的opmode的第8个字节也为0x14，则实际上SETLIST的opcode为8。</div><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接下来就需要定位到luaV_execute函数，然后对比源码来还原其他的opcode，直接IDA搜索字符串"initial value must be a number"可以定位到luaV_execute 函数，再F5一下。接着打开lua源码中的lvm.c文件，找到luaV_execute函数，就可对比还原了。lua源码和IDA F5后的代码其实差别还是有的，而且源码用了大量的宏，所以源码只是用来参考、理解lua虚拟机的解析过程，本人在还原的过程中，会再打开一个没有修改opcode的libcocos2dlua.so文件，这样对比查找就方便多了。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后修改lua源码 lopcodes.h中的opcode、lopcodes.c的opname和opmode，重新编译并生成luadec51 .exe（需要将lua源码中的src目录放到luadec51的lua目录下才能编译），就OK了，写个批处理文件就可以批量反编译。一个文件反编译的结果：</p><div><img width="643" height="545" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/749321_i4053hsquugna4z.png" class="div_message_boxShadow" style="cursor: pointer;"></div><p><span style="font-size:16px;"><strong><br></strong></span></p><p><span style="font-size:16px;"><strong>6.总结</strong></span></p><p>&nbsp; &nbsp; &nbsp;总结一下解密lua的流程，拿到APK，首先反编译，查看lib目录下是否有libcocos2dlua.so，存在的话很大可能这个游戏就是lua编写，lib目录下文件最大的就是目标so文件，一般情况就是libcocos2dlua.so。接着再看assets文件夹有没有可疑的文件，cocos2dx框架都会把游戏的资源文件放到这个文件夹下，包括lua脚本。其次分析lua加密的方式并选择解密脚本的方式，如果可以ida动态调试，本人一般都会选择用idc脚本dump代码。最后如果得到的不是lua明文，还需要再反编译一下。</p><p>&nbsp; &nbsp; &nbsp;不足之处：第一个是此文是本人逆向lua手游时的总结，而且本人逆向的手游可能不是很多，所以有些观点比较片面，不足之处请指正。第二个就是文章是事后写的，并且写文章的时间比较仓促，所以有些步骤写得可能不详细，欢迎讨论。如果有必要，会写一篇《如何一步一步还原梦幻手游opcode》，但是如果看过lua源码，对lua比较熟悉的话，找出来我想应该不是问题的。第三个就是luajit的反编译并不完美，用的是luajit-decomp反编译工具，工具作者也说只是满足了他自己的需求，所以如果可以的话，想自己实现一个luajit的反编译工具，而且梦幻luac的反编译好像部分代码也反编译失败了，可能自己遗漏了点什么吧，就先这样吧.....</p><p><br></p><p><strong><span style="font-size:16px;">参考文章</span></strong></p><div>腾讯游戏安全中心《Lua游戏逆向及破解方法介绍》&nbsp;<a href="http://gslab.qq.com/portal.php?mod=view&amp;aid=173">http://gslab.qq.com/portal.php?mod=view&amp;aid=173</a></div><div>云风《Lua源码欣赏》<a href="http://download.csdn.net/download/nomoonon/8551481">http://download.csdn.net/download/nomoonon/8551481</a></div><p>Kaitiren的专栏《Quick-cocos2d-x 与Cocos2dx 区别》<a href="http://blog.csdn.net/kaitiren/article/details/35276177">http://blog.csdn.net/kaitiren/article/details/35276177</a></p><p>.....</p><p><strong><span style="font-size:16px;"><br></span></strong></p><p><strong><span style="font-size:16px;">附件</span></strong></p><p>http://pan.baidu.com/s/1skVDfXz<br></p><p>1rx9</p><p>										</p><p>										</p><p>										</p><p>										</p>				
+				
+								
+				
+						</div>
+			<div>
+						</div>
+		</div>
+
+		<style>
+			.card_collection { vertical-align: middle; display: inline-block; border: 1px solid #eee; background: #EEEEEE; padding: 0px 8px; border-radius: 5px; }
+			.card_collection p { margin-bottom: 0px;font-size: 12px;}
+			.card_collection p a { text-decoration: none; }
+			.alipay-bg { width: 60px;height: 20px;display: inline-block;vertical-align: middle;background: url(view/img/reward_alipay.png) 0 0 no-repeat;}
+		</style>
+		<div class="card" style="background:#F9F9F9;text-align:center;padding:5px 0px;">
+			<div style="width:auto;display:inline-block;">
+				<div class="card_collection" style="width: 70px; height: 65px;line-height:30px">
+					<p><b id="likes">60</b></p>
+					<p id="favorite">
+						<a href="javascript:void(0)" title="点我收藏">
+														<i class="icon-star-o"></i>&nbsp;收藏
+													</a>
+					</p>
+				</div>
+				
+				<div class="card_collection">
+					<a href="javascript:void(0);" class="modal-title" id="exampleModalLabel" data-toggle="modal" data-target=".reward"><img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/dashang.png" alt="赞赏" style="width:60px;vertical-align: middle;" title="现金赞赏支持"></a>
+				</div>
+				
+				<div class="card_collection">
+					<img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/bbs_qrcode-http_3A_2F_2Fbbs_2epediy_2ecom_2Fthread_2d216969_2ehtm.htm" alt="二维码" style="width:60px;vertical-align: middle; ">
+				</div>
+			</div>
+		</div>
+		
+		                                <div class="card text-center small" style="padding:5px 15px;">
+                        <div class="row p-b-sm">
+                                <div class="p-t-sm">本主题帖已收到 <span class="text-warning text-bold">1</span> 次赞赏，累计<span class="text-danger text-bold">￥1.00</span></div>
+                                <div class="col-lg-12 text-left">
+                                                                                <a href="https://bbs.pediy.com/user-733834.htm" data-toggle="tooltip" data-placement="top" data-original-title="哆啦咪，￥1.00" title="">
+                                        <img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/733834.png" class="avatar-xs m-t-sm m-l-xs" style="width: 1.6rem;height: 1.6rem;border-radius: 1.6rem;">
+                                        </a>
+                                                                        </div>
+                        </div>
+                </div>
+                                
+                <!--赞赏支持-->
+                <div class="modal fade reward" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                            </button>
+                                            <h4 class="modal-title" id="exampleModalLabel">赞赏</h4>
+                                        </div>
+                                        <form action="https://bbs.pediy.com/thread-216969.htm" method="post" id="pay_kx" onsubmit="return topay()">
+                                                <div class="modal-body text-center">
+                                                        <div class="form-group">
+                                                                <input name="ureward" type="hidden" value="749321">
+                                                                <input type="hidden" name="reward_articleid" value="216969">
+                                                                <div class="avatar m-b-2 m-t-sm" style="width: 70px;height: 70px;display: inline-block;">
+                                                                    <img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/dashang.png" alt="100">
+                                                                </div>
+                                                                
+                                                                <div class="text-center m-b-2">
+                                                                    <div class="" data-toggle="buttons">
+                                                                        <label class="btn btn-outline-danger active" style="width:120px">
+                                                                            <input type="radio" value="1" name="reward_rmbs" id="option1" autocomplete="off" checked="">1 元
+                                                                        </label>
+                                                                        <label class="btn btn-outline-danger" style="width:120px">
+                                                                            <input type="radio" value="2" name="reward_rmbs" id="option2" autocomplete="off">2 元
+                                                                        </label>
+                                                                        <label class="btn btn-outline-danger" style="width:120px">
+                                                                            <input type="radio" value="5" name="reward_rmbs" id="option3" autocomplete="off">5 元
+                                                                        </label>
+                                                                        <label class="btn btn-outline-danger" style="width:120px">
+                                                                            <input type="radio" value="10" name="reward_rmbs" id="option4" autocomplete="off">10 元
+                                                                        </label>
+                                                                        <label class="btn btn-outline-danger" style="width:120px">
+                                                                            <input type="radio" value="20" name="reward_rmbs" id="option5" autocomplete="off">20 元
+                                                                        </label>
+                                                                        <label class="btn btn-outline-danger" style="width:120px">
+                                                                            <input type="radio" value="50" name="reward_rmbs" id="option6" autocomplete="off">50 元
+                                                                        </label>
+                                                                        <label class="btn btn-outline-danger" style="width:120px">
+                                                                            <input type="radio" value="100" name="reward_rmbs" id="option7" autocomplete="off">100 元
+                                                                        </label>
+                                                                        <label class="btn btn-outline-danger" style="width:120px">
+                                                                            <input type="radio" value="200" name="reward_rmbs" id="option8" autocomplete="off">200 元
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="text-center">
+                                                                    <label id="alipay_lab">
+                                                                        <span>支付方式：</span>
+                                                                        <input type="radio" value="1" checked="checked" name="reward_type" style="display:inline">
+                                                                        <span class="alipay-bg"></span>
+                                                                    </label>
+                                                                   <!--  <label class="m-l-1">
+                                                                        <input type="radio" value="3" name="reward_type">
+                                                                        <i class="icon icon-weixin" style="font-size:17px;color:#49BE38"></i> 微信支付
+                                                                    </label> -->
+                                                                                                                                    </div>
+                                                        </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                        <button id="pay_submit" type="submit" class="btn btn-primary btn-pay kx-pay" data-loading-text="正在提交...">立即支付</button>
+                                                </div>
+                                        </form>
+                                </div>
+                        </div>
+                </div>		<div class="card post p-a-sm">
+			<table class="table postlist m-b-0">
+				<thead>
+					<tr>
+						<th colspan="2" class="p-a-0  p-b-sm">
+							<dl class="row">
+								<dt>
+									<b>最新回复</b> (<span class="posts">34</span>)
+								</dt>
+								<dd style="text-align: right;">
+									
+									
+																		
+								</dd>
+							</dl>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				
+													
+				
+																			
+															
+					<tr class="post" pid="1472264">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-559478.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2012-12 <br>
+								帖子：53 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-559478.htm">bengou</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-11 16:08</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1472264" class="text-grey m-r-1"><span class="floor">2</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								谢谢分享																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1472270">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-394739.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/394739.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2010-12 <br>
+								帖子：155 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-394739.htm">cqzhou</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-11 16:45</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1472270" class="text-grey m-r-1"><span class="floor">3</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								谢谢分享&nbsp; 赞一个																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1472275">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-717171.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/717171.png">
+							</a>
+							<div>
+								<span class="group group-103 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2016-4 <br>
+								帖子：48 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 1</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-717171.htm">奔跑的阿狸</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-11 17:13</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1472275" class="text-grey m-r-1"><span class="floor">4</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								竟然有我梦幻的，必须赞																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1472293">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-425513.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/425513.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2011-4 <br>
+								帖子：194 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-425513.htm">MaYil</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-11 19:28</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1472293" class="text-grey m-r-1"><span class="floor">5</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								厉害了我的哥,&nbsp; 谢谢分享																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1472348">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-76973.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2007-2 <br>
+								帖子：52 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-76973.htm">huuio</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-12 11:47</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1472348" class="text-grey m-r-1"><span class="floor">6</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								支持																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1472428">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-629109.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2014-4 <br>
+								帖子：109 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-629109.htm">huluxia</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-12 22:45</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1472428" class="text-grey m-r-1"><span class="floor">7</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								厉害了我的哥期待下一篇文章																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1472844">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-55894.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-4 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2006-9 <br>
+								帖子：3622 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 14</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-55894.htm">笨笨雄</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-17 09:42</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1472844" class="text-grey m-r-1"><span class="floor">8</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								我也看的腾讯那文章，并没有什么卵用，楼主要是早点写，我就懒得自己搞了。。。																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1472976">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-17251.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-102 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2005-1 <br>
+								帖子：87 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-17251.htm">Sam.com</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-18 01:45</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1472976" class="text-grey m-r-1"><span class="floor">9</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								谢谢分享~~																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1472994">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-749663.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-4 <br>
+								帖子：2 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-749663.htm">seacathello</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-18 09:06</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1472994" class="text-grey m-r-1"><span class="floor">10</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								楼主，可以留个联系方式吗？我有一个apk&nbsp; 反编译的问题想请教，有偿。我的联系方式是229605841.																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1473516">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-733834.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/733834(1).png">
+							</a>
+							<div>
+								<span class="group group-4 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2016-10 <br>
+								帖子：398 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-733834.htm">哆啦咪</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-21 10:23</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1473516" class="text-grey m-r-1"><span class="floor">11</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								厉害了我的哥期待下一篇文章&nbsp; 																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1473524">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-746745.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/746745.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-3 <br>
+								帖子：4 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-746745.htm">江南四号地铁</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-21 10:52</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1473524" class="text-grey m-r-1"><span class="floor">12</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								谢谢分享~~																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1473622">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-482014.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2012-1 <br>
+								帖子：30 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-482014.htm">marsboys</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-22 03:56</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1473622" class="text-grey m-r-1"><span class="floor">13</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								支持一下！																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1473680">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-319118.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/319118.png">
+							</a>
+							<div>
+								<span class="group group-102 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2010-2 <br>
+								帖子：211 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-319118.htm">bambooqj</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-22 19:31</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1473680" class="text-grey m-r-1"><span class="floor">14</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								luajit反编译出来了的.根本看不懂..而且隔空调用有时候还有问题.师傅是怎么解决的.																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1473834">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-679760.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/679760.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2015-5 <br>
+								帖子：15 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-679760.htm">xxRea</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-24 11:08</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1473834" class="text-grey m-r-1"><span class="floor">15</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								luajit反编译出来的代码可读性实在是太差劲了。<br>有没有更好的反编译工具？<br>还有，luajit反编译出的代码，修改后能够再编译成luajit吗<img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/41.gif" style="cursor: pointer;">																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1473936">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-749321.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-102 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-4 <br>
+								帖子：12 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 1</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-749321.htm">littleNA</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-24 22:10</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1473936" class="text-grey m-r-1"><span class="floor">16</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								<blockquote class="blockquote">
+		<a href="https://bbs.pediy.com/user-319118.htm" class="text-small text-muted user">
+			<img class="avatar-xs" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/319118.png" style="cursor: pointer;">
+			bambooqj
+		</a>
+		luajit反编译出来了的.根本看不懂..而且隔空调用有时候还有问题.师傅是怎么解决的.
+		</blockquote>确实本文章中的luajit反编译工具反编译的结果很难看，这个我也在研究，你可以试试&nbsp; @笨笨雄&nbsp; 版主那篇文章中的其他反编译工具。																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1473939">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-749321.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-102 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-4 <br>
+								帖子：12 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 1</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-749321.htm">littleNA</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-24 22:28</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1473939" class="text-grey m-r-1"><span class="floor">17</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								<blockquote class="blockquote">
+		<a href="https://bbs.pediy.com/user-679760.htm" class="text-small text-muted user">
+			<img class="avatar-xs" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/679760.png" style="cursor: pointer;">
+			xxRea
+		</a>
+		luajit反编译出来的代码可读性实在是太差劲了。
+有没有更好的反编译工具？
+还有，luajit反编译出的代码，修改后能够再编译成luajit吗[em_41]
+		</blockquote>是的，这个工具不是很好用，你可以试试&nbsp; &nbsp; @笨笨雄&nbsp; &nbsp; 版主那篇文章中的反编译工具。<br>反编译出来的代码应该都有各种问题吧，如果没有问题的话那就可以直接用，luajit是支持明文脚本的；如果反编译的结果有问题（编译不再通过），那只能修改luajit的汇编代码了，再生成文件。以上都还只是理论，我没有试过。																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1474032">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-319118.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/319118.png">
+							</a>
+							<div>
+								<span class="group group-102 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2010-2 <br>
+								帖子：211 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-319118.htm">bambooqj</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-4-25 15:16</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1474032" class="text-grey m-r-1"><span class="floor">18</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								市面上大部分luajit的工具&nbsp; github能找的&nbsp; 宝宝都试过了..全部基于线性扫描.优化之后的可读性.仍然很差..什么时候能编程.ILCODE转C#的效果就很厉害了.																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1474797">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-55894.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-4 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2006-9 <br>
+								帖子：3622 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 14</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-55894.htm">笨笨雄</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-5-2 09:42</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1474797" class="text-grey m-r-1"><span class="floor">19</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								<blockquote class="blockquote">
+		<a href="https://bbs.pediy.com/user-319118.htm" class="text-small text-muted user">
+			<img class="avatar-xs" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/319118.png" style="cursor: pointer;">
+			bambooqj
+		</a>
+		市面上大部分luajit的工具 github能找的 宝宝都试过了..全部基于线性扫描.优化之后的可读性.仍然很差..什么时候能编程.ILCODE转C#的效果就很厉害了.
+		</blockquote>做肯定能做的，就是没有经济利益，基本都是坑。讲道理，看雪要是能把各种坑掉的项目都接手继续做下去，就可以圈更多的用户了																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1477154">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-346783.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2010-6 <br>
+								帖子：316 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-346783.htm">gtict</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-5-17 16:42</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1477154" class="text-grey m-r-1"><span class="floor">20</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								问下楼主，，梦幻你修改的lua源码lopcode.c哪个版本的，，我对比了一下5.1.3的，，区别很大。。感觉不太对~~求指点点																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1477689">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-749321.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-102 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-4 <br>
+								帖子：12 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 1</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-749321.htm">littleNA</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-5-20 22:08</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1477689" class="text-grey m-r-1"><span class="floor">21</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								<blockquote class="blockquote">
+		<a href="https://bbs.pediy.com/user-346783.htm" class="text-small text-muted user">
+			<img class="avatar-xs" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png" style="cursor: pointer;">
+			gtict
+		</a>
+		问下楼主，，梦幻你修改的lua源码lopcode.c哪个版本的，，我对比了一下5.1.3的，，区别很大。。感觉不太对~~求指点点
+		</blockquote>5.1.5，里面的代码放到了lopcodes.def和lopmodes.def文件，修改下就好了。<br>另外直接修改opcode和opmode达到的效果不好（存在bug），想到另外一种方式（在加载code之后再替换），而且反编译工具luadec有一些bug，目前正在写相关的文章，之后会发上来。																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1477720">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-714448.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/714448.png">
+							</a>
+							<div>
+								<span class="group group-104 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2016-4 <br>
+								帖子：312 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 3</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-714448.htm">大王叫我挖坟</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-5-21 10:00</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1477720" class="text-grey m-r-1"><span class="floor">22</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								<p>											</p><p>											</p><p><span style="font-size:14px; line-height:23px;">网上jit的资料太少了，之前看见jit都害怕，现在看着楼主写的感谢爽多了，</span>谢谢分享，好东西啊，收藏了</p><p>										</p><p>										</p>																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1480312">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-690935.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2015-8 <br>
+								帖子：3 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-690935.htm">AndroidK</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-6-2 22:14</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1480312" class="text-grey m-r-1"><span class="floor">23</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								关于对解密lua后的实际应用能写一个栗子嘛？																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1482984">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-679760.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/679760.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2015-5 <br>
+								帖子：15 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-679760.htm">xxRea</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-6-21 00:06</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1482984" class="text-grey m-r-1"><span class="floor">24</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								必须点个赞																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1483298">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-281317.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2009-9 <br>
+								帖子：2 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-281317.htm">学外挂</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-6-23 10:23</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1483298" class="text-grey m-r-1"><span class="floor">25</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								&nbsp; 连接挂了&nbsp; 能传一份吗																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1491764">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-760296.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-8 <br>
+								帖子：3 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-760296.htm">voidFunction</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-8-19 17:26</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1491764" class="text-grey m-r-1"><span class="floor">26</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								楼主能对&nbsp; lua虚拟机opcode&nbsp; 是怎么找到的可以详细的讲解一下吗?&nbsp; 我一直卡在这里动不了了.....<img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/2.gif" style="cursor: pointer;">																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1492016">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-760466.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-8 <br>
+								帖子：6 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-760466.htm">gslab实验室</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-8-21 14:22</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1492016" class="text-grey m-r-1"><span class="floor">27</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								楼主你好，我是gslab游戏安全实验室的，感谢您对gslab的支持，想来转载您这篇文章到gslab官网上，不知道可以吗																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1492036">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-749321.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-102 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-4 <br>
+								帖子：12 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 1</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-749321.htm">littleNA</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-8-21 15:52</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1492036" class="text-grey m-r-1"><span class="floor">28</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								<blockquote class="blockquote">
+		<a href="https://bbs.pediy.com/user-760296.htm" class="text-small text-muted user">
+			<img class="avatar-xs" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png" style="cursor: pointer;">
+			voidFunction
+		</a>
+		楼主能对 lua虚拟机opcode 是怎么找到的可以详细的讲解一下吗? 我一直卡在这里动不了了.....[em_2]
+		</blockquote>文章应该写的比较详细了，你是卡在哪一步呢？一个都还原不了还是说还原了部分？如果是还原了部分，剩下的那些，需要对比代码的结构才能还原（具体每个指令的代码结构文章没有写出来，得你自己去看源码），比如&nbsp; add操作，那你需要找到一个类似&nbsp; 2个寄存器相加并保存&nbsp; 的代码，接着记录opcode就OK了。																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1492037">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-749321.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-102 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-4 <br>
+								帖子：12 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 1</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-749321.htm">littleNA</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-8-21 15:53</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1492037" class="text-grey m-r-1"><span class="floor">29</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								<blockquote class="blockquote">
+		<a href="https://bbs.pediy.com/user-760466.htm" class="text-small text-muted user">
+			<img class="avatar-xs" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png" style="cursor: pointer;">
+			gslab实验室
+		</a>
+		楼主你好，我是gslab游戏安全实验室的，感谢您对gslab的支持，想来转载您这篇文章到gslab官网上，不知道可以吗
+		</blockquote>OK。没有问题~																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1492141">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-760296.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-8 <br>
+								帖子：3 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-760296.htm">voidFunction</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-8-22 15:13</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1492141" class="text-grey m-r-1"><span class="floor">30</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								<blockquote class="blockquote">
+		<a href="https://bbs.pediy.com/user-749321.htm" class="text-small text-muted user">
+			<img class="avatar-xs" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png" style="cursor: pointer;">
+			littleNA
+		</a>
+		文章应该写的比较详细了，你是卡在哪一步呢？一个都还原不了还是说还原了部分？如果是还原了部分，剩下的那些，需要对比代码的结构才能还原（具体每个指令的代码结构文章没有写出来，得你自己去看源码），比如 ad ... 
+		</blockquote>非常感谢楼主的指导,&nbsp; 我现在已经解决了我的难题.&nbsp; 再次感谢!!!																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1494262">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-111569.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-103 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2007-8 <br>
+								帖子：269 <br>-->
+
+																<span class="icon-diamond text-danger" title="精华数"></span><span class="text-bold text-danger"> 1</span>
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-111569.htm">koflfy</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-9-5 14:18</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1494262" class="text-grey m-r-1"><span class="floor">31</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								mark，感谢楼主。。。																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post deleted" pid="1498033">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-765186.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-9 <br>
+								帖子：3 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-765186.htm">zm的乖乖</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-9-28 01:14</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1498033" class="text-grey m-r-1"><span class="floor">32</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								此楼层已删除								 <i class="icon-trash"></i> 																
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1498215">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-745443.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/745443.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-2 <br>
+								帖子：183 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-745443.htm">聖blue</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-9-28 18:41</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1498215" class="text-grey m-r-1"><span class="floor">33</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								不错！！！！！！																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1498409">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-765186.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2017-9 <br>
+								帖子：3 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-765186.htm">zm的乖乖</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-9-29 13:28</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1498409" class="text-grey m-r-1"><span class="floor">34</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								楼主看到回帖，一定要回帖啊！<img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/5.gif" class="face" style="cursor: pointer;">																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1504221">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-642657.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/642657.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2014-7 <br>
+								帖子：32 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-642657.htm">sshhll</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-11-8 13:10</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1504221" class="text-grey m-r-1"><span class="floor">35</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								mark,谢谢分享																								
+								
+							</div>
+						</td>
+					</tr>
+																			
+															
+					<tr class="post" pid="1506670">
+						<td class="vtop td-avatar" style="width: 46px;">
+							<a href="https://bbs.pediy.com/user-162716.htm" tabindex="-1">
+								<img class="avatar" src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/avatar.png">
+							</a>
+							<div>
+								<span class="group group-101 m-r-xs"></span>
+							</div>
+							<div class="text-grey text-tiny" style="text-align: center; margin-top: -4px; ">
+								
+								<!--注册：2008-3 <br>
+								帖子：79 <br>-->
+
+								
+								<!--<span class="hidden-md-down" title=""></span>
+								-->
+							</div>
+							
+							
+						</td>
+						<td class="p-x-0">
+							<dl class="row small">
+								<dt>
+									
+									
+									<span class="username text-bold">
+										<a href="https://bbs.pediy.com/user-162716.htm">linfengtai</a>
+									</span>
+									
+									<span class="date text-grey m-l-sm">2017-11-28 23:23</span>
+									
+								</dt>
+								<dd class="text-right text-grey ">
+																											
+																		
+									
+
+																	
+									
+
+	
+
+									
+																		
+									
+
+																		<a href="https://bbs.pediy.com/thread-216969-1.htm#1506670" class="text-grey m-r-1"><span class="floor">36</span> 楼</a>
+																		
+								</dd>
+							</dl>
+							<div class="message m-t-xs break-all">
+																								希望大佬能写一个luajit解密工具。这实在太难了																								
+								
+							</div>
+						</td>
+					</tr>
+								
+									
+									</tbody>
+			</table>
+		</div>
+		
+		
+				
+		
+		
+				
+				
+		<a role="button" class="btn btn-secondary btn-block xn-back m-y-1 m-x-auto" style="max-width: 50%;" href="javascript:history.back();">返回</a>
+		
+		<br>
+		<br>
+		
+</div>
+</div>
+<div id="footer" style="background: #3b4348; color: #9ba4aa; height: auto;">
+	<div class="container">
+		<dl class="row text-muted m-y-1" id="web_base_company_information">
+			<dt class="col-xs-12 col-sm-12 col-md-6">
+				©2000-
+				2017 看雪学院 | Based on <a href="http://bbs.xiuno.com/" target="_blank" class="text-muted text-bold">Xiuno BBS</a> | 域名 <a href="https://www.yunaq.com/" target="_blank" class="text-muted text-bold">加速乐</a> 保护 | SSL证书 <a href="https://www.upyun.com/" target="_blank" class="text-muted text-bold">又拍云</a> 提供 | 微信公众号：ikanxue
+			</dt>
+			<dd class="col-xs-12 col-sm-12 col-md-6" style="text-align: right;">
+				Time: <b>0.056</b>, SQL: <b>10</b> / 京ICP备10040895号-17
+			</dd>
+		</dl>
+		<div style="max-height: 100px; overflow-y:auto;">
+					</div>
+	</div>
+</div>
+<div class="act_go_top" style="position: fixed; bottom: 80px; right: 10px; width: 70px; height: 70px;">
+    <a href="javascript:void(0);" style="width: 70px; height: 70px; display: inline-block;background: url(/view/img/scroll_top.png) no-repeat; _background: url(/view/img/scroll_top.png) no-repeat; outline: none;" title="返回顶部"></a>
+</div>
+</div>
+
+<!--
+</div>
+-->
+
+
+<!--[if lt IE 9]>
+<script>window.location = 'browser.htm';</script>
+<![endif]-->
+
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/bbs.js.下载"></script>
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/jquery-3.1.0.js.下载"></script>
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/tether.js.下载"></script>
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/bootstrap.js.下载"></script>
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/bootstrap-plugin.js.下载"></script>
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/async.js.下载"></script>
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/xiuno.js.下载"></script>
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/form.js.下载"></script>
+<script>
+var debug = DEBUG = 0;
+var url_rewrite_on = 1;
+var forumarr = {
+    "20": "『悬赏问答』",
+    "32": "『外文翻译』",
+    "52": "OllyDbg插件收集区",
+    "69": "『经典问答』",
+    "102": "『科锐培训』",
+    "141": "CrackMe存档区",
+    "151": "『WEB安全』",
+    "152": "学习园地",
+    "2": "『论坛版务』",
+    "4": "『软件逆向』",
+    "53": "IDA Pro插件收集区",
+    "76": "1)珠海金山2007逆向分析挑战",
+    "99": "《加密与解密(第三版)》",
+    "169": "『15PB培训』",
+    "125": "奇虎360软件安全大赛答案提交区",
+    "150": "『二进制漏洞』",
+    "128": "『智能设备』",
+    "21": "《软件加密技术内幕》",
+    "68": "2)PEDIY Crackme竞",
+    "41": "『编程技术』",
+    "95": "《0day:软件漏洞分析技术》",
+    "160": "『麦洛克菲培训』",
+    "161": "『Android安全』",
+    "162": "『企业SRC』",
+    "166": "『iOS安全』",
+    "3": "桌面平台",
+    "79": "智能设备",
+    "88": "『加壳脱壳』",
+    "91": "3)看雪论坛2008 Explo",
+    "120": "4)腾讯公司2008软件安全竞赛",
+    "97": "《Windows编程循序渐进》",
+    "158": "移动平台",
+    "132": "『密码算法』",
+    "123": "《微软.NET程序的加密与解密》",
+    "127": "5)奇虎360软件安全比赛",
+    "37": "『CrackMe』",
+    "140": "6)PEDIY Crackme竞",
+    "108": "渗透技术",
+    "65": "『图书项目』",
+    "163": "《C++反汇编与逆向分析技术》",
+    "10": "『资源下载』",
+    "116": "看雪CTF",
+    "155": "8)腾讯公司2010软件安全竞赛",
+    "168": "《Android安全与逆向分析》",
+    "157": "9)2011 Exploit M",
+    "170": "看雪产品",
+    "121": "11）移动安全挑战赛（MSC）",
+    "129": "12）2015第2届移动安全挑战",
+    "136": "职场生活",
+    "47": "『招聘专区』",
+    "137": "『职业生涯』",
+    "171": "『Pwn』",
+    "45": "『茶余饭后』",
+    "1": "站务管理"
+};
+var fid = 161;
+var uid = 0;
+var gid = 0;
+$('[data-toggle="tooltip"]').tooltip();
+$('#search_form > input').on('click', function() {
+	return false;
+});
+</script>
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/bbs.js(1).下载"></script>
+<script>
+// 版主管理：精华
+$('.mod-button button.digest').on('click', function() {
+	var modtid = $('input[name="modtid"]').checked();
+	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+	var radios = xn.form_radio('digest', {"0": "取消精华", "1": "关注","2": "优秀", "3": "精华"});
+	$.confirm("设置主题为精华", function() {
+		var tids = xn.implode('_', modtid);
+		var digest = $('input[name="digest"]').checked();
+		var postdata = {digest: digest};
+		$.xpost(xn.url('mod-digest-'+tids), postdata, function(code, message) {
+			if(code != 0) return $.alert(message);
+			$.alert(message).delay(1000).location('');
+		});
+	}, {'body': '<p>'+"精华等级"+'：'+radios+'</p>'});
+})
+</script><script>
+function xn_read_unread(tids, tid) {
+	
+	// 当前时间
+	var time = xn.time();
+	
+	// 多长时间内的主题为最新主题
+	var time_range = 86400 * 3;
+	
+	// 三天内的 tids
+	var recent_tids = $.pdata('recent_tids') || {};
+	
+	// 已读的 tids
+	var view_tids = $.pdata('view_tids') || {};
+	// 提取列表页的 tid
+	function fetch_recent_tids(tids) {
+		var changed = false;
+		$.each(tids, function(tid, last_date) {
+			if(time - last_date < time_range) {
+				recent_tids[tid] = last_date;
+				changed = true;
+			}
+		});
+		if(changed) $.pdata('recent_tids', recent_tids);
+	}
+	
+	// 清理最近的 tid
+	function gc_recent_tids() {
+		var changed = false;
+		$.each(recent_tids, function(tid, last_date) {
+			if(time - last_date > time_range) {
+				delete recent_tids[tid];
+				changed = true;
+			}
+		});
+		if(changed) $.pdata('recent_tids', recent_tids);
+	}
+	
+	function gc_view_tids() {
+		var changed = false;
+		$.each(view_tids, function(tid, last_date) {
+			if(!recent_tids[tid]) {
+				delete view_tids[tid];
+				changed = true;
+			}
+		});
+		if(changed) $.pdata('view_tids', view_tids);
+	}
+	
+	function save_view_tid(tid) {
+		if(!recent_tids[tid]) return;
+		view_tids[tid] = time;
+		$.pdata('view_tids', view_tids);
+	}
+	
+	if(tids) {
+		fetch_recent_tids(tids);
+		gc_recent_tids();
+		//gc_view_tids();
+	}
+	if(tid) save_view_tid(tid);
+	
+	// 三天内的主题标记为已读
+	
+	// 遍历主题列表，标记最近的，并且未读的为加粗
+
+	$('tr.thread').each(function() {
+		var jthis = $(this);
+		var tid = jthis.attr('tid');
+		if(recent_tids[tid] && recent_tids[tid] > xn.intval(view_tids[tid])) {
+			//jthis.find('div.subject').addClass('text-bold');
+			jthis.find('div.subject').append('<span class="icon-new"></span>');
+			jthis.find('span.icon-post-grey').removeClass('icon-post-grey').addClass('icon-post-blue');
+		}
+	});
+}
+
+</script>
+<script type="text/javascript">
+$(function() {
+	setTimeout(function() {
+		$.require('https://www.google-analytics.com/ga.js', function() {
+			try {
+				var pageTracker = _gat._getTracker("UA-9784446-1");
+				pageTracker._trackPageview();
+			} catch (err) {}
+		});
+	}, 1000);
+
+
+	$("div.message img").each(function(index, element) {
+		if ($(element).width() >= 100) {
+			$(element).addClass("div_message_boxShadow");
+		}
+	})
+
+
+});
+
+if (self != top) {
+	$('#header').hide();
+	$('#nav2').hide();
+	$('#footer').hide();
+}
+</script>
+<script>
+(function() {
+	var islogin = '';
+    if(islogin == 0)  return; 
+	var pm_number = "//www.kanxue.com/pm-new.htm";
+	$.xget(pm_number, function(code, message) {
+		var pm_number = $(".pm_number");
+		var sysm_number = $(".system_message_number");
+		if (code == 0) {
+			var newpms = parseInt(message.newpms);
+			var system_pms = parseInt(message.system_pms);
+			var pm_total = newpms + system_pms;
+			if (pm_total != 0) {
+				pm_total = pm_total > 99 ? "99+" : pm_total;
+				$(".pm_total").html(pm_total);
+				$(".pm_total").css({
+					"display": "inline-block",
+					"padding": "0px 7px",
+					"font-size": "12px",
+					"line-height": "20px",
+					"color": "white",
+					"background-color": "#f57e42",
+					"border-radius": "9px",
+					"text-indent": "0px"
+				});
+
+				if (system_pms > 0 && newpms == 0) {
+					var href = "//www.kanxue.com/pm-system_read-1.htm";
+					$(".pm_total_a").attr("href", href);
+				}
+
+			} else {
+				// $(".pm_total_a").css("display","none");
+			};
+			if (message.newpms != 0) {
+				pm_number.html(message.newpms);
+				pm_number.addClass("pmmessage_number");
+			} else {
+				pm_number.css("display", "none");
+			};
+			if (message.system_pms != 0) {
+				sysm_number.html(message.system_pms);
+				sysm_number.addClass("pmmessage_number");
+			} else {
+				sysm_number.css("display", "none");
+			};
+			if (message.newpms != 0) {
+				pm_number.html(message.newpms);
+				pm_number.addClass("pm_numbers_");
+			} else {
+				pm_number.css("display", "none");
+			};
+			if (message.system_pms != 0) {
+				sysm_number.html(message.system_pms);
+				sysm_number.addClass("pm_numbers_");
+			} else {
+				sysm_number.css("display", "none");
+			};
+
+
+		} else {
+			$(".pm_total").css({
+				"display": "inline-block",
+				"padding": "0px 3px",
+				"font-size": "12px",
+				"line-height": "20px",
+				"color": "white",
+				"background-color": "#f57e42",
+				"border-radius": "9px",
+				"text-indent": "0px"
+			});
+			pm_number.css("display", "none");
+			sysm_number.css("display", "none");
+
+		}
+	})
+
+})(jQuery);
+</script>
+<script>
+$(".bbs_home_page_three_col .small_logo").each(function(index, element) {
+
+	if ($(element).children("a").length == 0) {
+		$(".bbs_home_page_three_col .bbs_home_page_row_div").eq(index).children('div:first-child').removeClass("col-lg-8").addClass("col-lg-9");
+		$(".bbs_home_page_three_col .bbs_home_page_row_div").eq(index).children('div:last-child').removeClass("col-lg-4").addClass("col-lg-3");
+		$(".bbs_home_page_three_col .bbs_home_page_row_div").eq(index).children('div:first-child').children("span").css("width", "19rem");
+	}
+})
+
+
+// 返回顶部
+$(window).scroll(function() {
+
+    if ($(window).scrollTop() >= 500) {
+
+        $('.act_go_top').fadeIn(300);
+
+    } else {
+
+        $('.act_go_top').fadeOut(300);
+
+    }
+
+});
+
+$('.act_go_top').click(function() {
+
+    $('html,body').animate({
+        scrollTop: '0px'
+    }, 100);
+});
+
+
+</script>
+
+
+
+<script>
+
+var forumlist = [
+    {
+        "fid": "20",
+        "fup": "152",
+        "name": "『悬赏问答』",
+        "rank": "29"
+    },
+    {
+        "fid": "29",
+        "fup": "2",
+        "name": "『论坛管理团队』",
+        "rank": "29"
+    },
+    {
+        "fid": "32",
+        "fup": "152",
+        "name": "『外文翻译』",
+        "rank": "29"
+    },
+    {
+        "fid": "52",
+        "fup": "10",
+        "name": "OllyDbg插件收集区",
+        "rank": "29"
+    },
+    {
+        "fid": "69",
+        "fup": "20",
+        "name": "『经典问答』",
+        "rank": "29"
+    },
+    {
+        "fid": "122",
+        "fup": "37",
+        "name": "CTF2017提交区(隐藏版块)",
+        "rank": "29"
+    },
+    {
+        "fid": "102",
+        "fup": "137",
+        "name": "『科锐培训』",
+        "rank": "29"
+    },
+    {
+        "fid": "141",
+        "fup": "140",
+        "name": "CrackMe存档区",
+        "rank": "29"
+    },
+    {
+        "fid": "151",
+        "fup": "108",
+        "name": "『WEB安全』",
+        "rank": "29"
+    },
+    {
+        "fid": "152",
+        "fup": "0",
+        "name": "学习园地",
+        "rank": "29"
+    },
+    {
+        "fid": "2",
+        "fup": "1",
+        "name": "『论坛版务』",
+        "rank": "28"
+    },
+    {
+        "fid": "4",
+        "fup": "3",
+        "name": "『软件逆向』",
+        "rank": "28"
+    },
+    {
+        "fid": "53",
+        "fup": "10",
+        "name": "IDA Pro插件收集区",
+        "rank": "28"
+    },
+    {
+        "fid": "76",
+        "fup": "37",
+        "name": "1)珠海金山2007逆向分析挑战",
+        "rank": "28"
+    },
+    {
+        "fid": "99",
+        "fup": "65",
+        "name": "《加密与解密(第三版)》",
+        "rank": "28"
+    },
+    {
+        "fid": "169",
+        "fup": "137",
+        "name": "『15PB培训』",
+        "rank": "28"
+    },
+    {
+        "fid": "125",
+        "fup": "127",
+        "name": "奇虎360软件安全大赛答案提交区",
+        "rank": "28"
+    },
+    {
+        "fid": "150",
+        "fup": "108",
+        "name": "『二进制漏洞』",
+        "rank": "28"
+    },
+    {
+        "fid": "128",
+        "fup": "79",
+        "name": "『智能设备』",
+        "rank": "27"
+    },
+    {
+        "fid": "21",
+        "fup": "65",
+        "name": "《软件加密技术内幕》",
+        "rank": "27"
+    },
+    {
+        "fid": "68",
+        "fup": "37",
+        "name": "2)PEDIY Crackme竞",
+        "rank": "27"
+    },
+    {
+        "fid": "41",
+        "fup": "3",
+        "name": "『编程技术』",
+        "rank": "27"
+    },
+    {
+        "fid": "78",
+        "fup": "2",
+        "name": "『申请提交区』",
+        "rank": "27"
+    },
+    {
+        "fid": "95",
+        "fup": "65",
+        "name": "《0day:软件漏洞分析技术》",
+        "rank": "27"
+    },
+    {
+        "fid": "160",
+        "fup": "137",
+        "name": "『麦洛克菲培训』",
+        "rank": "27"
+    },
+    {
+        "fid": "161",
+        "fup": "158",
+        "name": "『Android安全』",
+        "rank": "27"
+    },
+    {
+        "fid": "162",
+        "fup": "170",
+        "name": "『企业SRC』",
+        "rank": "27"
+    },
+    {
+        "fid": "166",
+        "fup": "158",
+        "name": "『iOS安全』",
+        "rank": "27"
+    },
+    {
+        "fid": "3",
+        "fup": "0",
+        "name": "桌面平台",
+        "rank": "26"
+    },
+    {
+        "fid": "79",
+        "fup": "0",
+        "name": "智能设备",
+        "rank": "26"
+    },
+    {
+        "fid": "88",
+        "fup": "3",
+        "name": "『加壳脱壳』",
+        "rank": "26"
+    },
+    {
+        "fid": "91",
+        "fup": "37",
+        "name": "3)看雪论坛2008 Explo",
+        "rank": "26"
+    },
+    {
+        "fid": "120",
+        "fup": "37",
+        "name": "4)腾讯公司2008软件安全竞赛",
+        "rank": "25"
+    },
+    {
+        "fid": "57",
+        "fup": "2",
+        "name": "『回收站』",
+        "rank": "25"
+    },
+    {
+        "fid": "97",
+        "fup": "65",
+        "name": "《Windows编程循序渐进》",
+        "rank": "25"
+    },
+    {
+        "fid": "158",
+        "fup": "0",
+        "name": "移动平台",
+        "rank": "25"
+    },
+    {
+        "fid": "132",
+        "fup": "3",
+        "name": "『密码算法』",
+        "rank": "24"
+    },
+    {
+        "fid": "123",
+        "fup": "65",
+        "name": "《微软.NET程序的加密与解密》",
+        "rank": "24"
+    },
+    {
+        "fid": "127",
+        "fup": "37",
+        "name": "5)奇虎360软件安全比赛",
+        "rank": "24"
+    },
+    {
+        "fid": "37",
+        "fup": "116",
+        "name": "『CrackMe』",
+        "rank": "23"
+    },
+    {
+        "fid": "140",
+        "fup": "37",
+        "name": "6)PEDIY Crackme竞",
+        "rank": "23"
+    },
+    {
+        "fid": "108",
+        "fup": "0",
+        "name": "渗透技术",
+        "rank": "22"
+    },
+    {
+        "fid": "65",
+        "fup": "170",
+        "name": "『图书项目』",
+        "rank": "22"
+    },
+    {
+        "fid": "163",
+        "fup": "65",
+        "name": "《C++反汇编与逆向分析技术》",
+        "rank": "22"
+    },
+    {
+        "fid": "10",
+        "fup": "3",
+        "name": "『资源下载』",
+        "rank": "21"
+    },
+    {
+        "fid": "116",
+        "fup": "0",
+        "name": "看雪CTF",
+        "rank": "21"
+    },
+    {
+        "fid": "155",
+        "fup": "37",
+        "name": "8)腾讯公司2010软件安全竞赛",
+        "rank": "21"
+    },
+    {
+        "fid": "168",
+        "fup": "65",
+        "name": "《Android安全与逆向分析》",
+        "rank": "21"
+    },
+    {
+        "fid": "157",
+        "fup": "37",
+        "name": "9)2011 Exploit M",
+        "rank": "20"
+    },
+    {
+        "fid": "170",
+        "fup": "0",
+        "name": "看雪产品",
+        "rank": "20"
+    },
+    {
+        "fid": "121",
+        "fup": "37",
+        "name": "11）移动安全挑战赛（MSC）",
+        "rank": "18"
+    },
+    {
+        "fid": "129",
+        "fup": "37",
+        "name": "12）2015第2届移动安全挑战",
+        "rank": "17"
+    },
+    {
+        "fid": "136",
+        "fup": "0",
+        "name": "职场生活",
+        "rank": "12"
+    },
+    {
+        "fid": "47",
+        "fup": "136",
+        "name": "『招聘专区』",
+        "rank": "4"
+    },
+    {
+        "fid": "137",
+        "fup": "136",
+        "name": "『职业生涯』",
+        "rank": "3"
+    },
+    {
+        "fid": "171",
+        "fup": "116",
+        "name": "『Pwn』",
+        "rank": "2"
+    },
+    {
+        "fid": "45",
+        "fup": "136",
+        "name": "『茶余饭后』",
+        "rank": "2"
+    },
+    {
+        "fid": "64",
+        "fup": "136",
+        "name": "『会员专区』",
+        "rank": "1"
+    },
+    {
+        "fid": "1",
+        "fup": "0",
+        "name": "站务管理",
+        "rank": "0"
+    }
+];
+
+// 三级版块
+function forum_tree(forumlist, template) {
+	var template = template || '<option value="{fid}">{tab}{name}</option>'+"\r\n";
+	var s = '';
+	var forumlist1 = forumlist.filter(function(v) {return v.fup == 0});
+	for(var i1=0; i1<forumlist1.length; i1++) {
+		var v1 = forumlist1[i1];
+		s += '►'+xn.template(template, {fid: v1.fid, name: v1.name, tab: "　"});
+		var forumlist2 = forumlist.filter(function(v2) {return v2.fup == v1.fid});
+		for(var i2=0; i2<forumlist2.length; i2++) {
+			var v2 = forumlist2[i2];
+			s += xn.template(template, {fid: v2.fid, name: v2.name, tab: "　　"});
+			var forumlist3 = forumlist.filter(function(v3) {return v3.fup == v2.fid});
+			for(var i3=0; i3<forumlist3.length; i3++) {
+				var v3 = forumlist3[i3];
+				s += xn.template(template, {fid: v3.fid, name: v3.name, tab: "　　　　"});
+			}
+
+		}
+	}
+	return s;
+}
+
+
+// 版主管理：移动 / moderator : move
+$('.mod-button button.move').off('click').on('click', function() {
+	var modtid = $('input[name="modtid"]').checked();
+	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+	var select = '<select name="fid">'+forum_tree(forumlist)+'</select>';
+	$.confirm(lang.move_forum, function() {
+		var tids = xn.implode('_', modtid);
+		var newfid = $('select[name="fid"]').val();
+		$.xpost(xn.url('mod-move-'+tids+'-'+newfid), function(code, message) {
+			if(code != 0) return $.alert(message);
+			$.alert(message).delay(1000).location('');
+		});
+	}, {'body': '<p>'+lang.choose_move_forum+'：'+select+'</p>'});
+})
+
+</script><script>
+
+// 版主管理：审核
+$('.mod-button button.audit').on('click', function() {
+	var modtid = $('input[name="modtid"]').checked();
+	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+	var radios = xn.form_radio('audit', {"1": "审核通过", "2": "审核不通过"});
+	$.confirm('审核主题', function() {
+		var tids = xn.implode('_', modtid);
+		var audit = $('input[name="audit"]').checked();
+		var postdata = {audit: audit};
+		$.xpost(xn.url('mod-audit-'+tids), postdata, function(code, message) {
+			if(code != 0) return $.alert(message);
+			$.alert(message).delay(1000).location('');
+		});
+	}, {'body': '<p>'+'审核选项'+'：'+radios+'</p>'});
+})
+
+</script>
+<script>
+
+$(function() {
+	// 版主管理：删除 / moderator : delete
+	$('.mod-button button.delete').off('click').on('click', function() {
+		var modtid = $('input[name="modtid"]').checked();
+		if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+		var radios = '';
+				//var htmladd = '<br><br><label class="text-small"><input type="checkbox" name="logic" value="0" /> 物理删除</label>';
+		//htmladd += '<br><label class="text-small"><input type="checkbox" name="logic" value="0" /> 恢复删除</label>';
+		$.confirm(xn.lang('confirm_delete_thread', {n:modtid.length}) + '<br><br>'+radios, function() {
+			var tids = xn.implode('_', modtid);
+			var type = $('input[name="type"]').checked();
+			$.xpost(xn.url('mod-delete-'+tids), {type: type}, function(code, message) {
+				if(code != 0) return $.alert(message);
+				$.alert(message).delay(1000).location('');
+			});
+		});
+	})
+
+	// 恢复逻辑删除的帖子
+	$('body').on('click', '.post_recover', function() {
+		var jthis = $(this);
+		var href = jthis.data('href');
+		var isfirst = jthis.attr('isfirst');
+		if(window.confirm('确定恢复删除的帖子？')) {
+			$.xpost(href, function(code, message) {
+				var isfirst = jthis.attr('isfirst');
+				if(code == 0) {
+					if(isfirst == '1') {
+						$.location('forum-161.htm');
+					} else {
+						window.location.reload();
+					}
+				} else {
+					$.alert(message);
+				}
+			});
+		}
+		return false;
+	});
+
+})
+
+</script>
+
+
+
+<div class="modal fade report" id="report" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="exampleModalLabel">举报此帖</h4>
+                        </div>
+                        <form id="form_report" action="https://bbs.pediy.com/post-report.htm" method="post">
+                                <div class="modal-body">
+                                        <div class="form-group">
+                                                <input id="tid" name="tid" value="0" type="hidden">
+                                                <input id="pid" name="pid" value="0" type="hidden">
+                                                <textarea class="form-control" id="brief" name="brief" rows="6" placeholder="请填写内容，注意: 请确认您所举报此帖的内容涉及到语言挑衅和违犯论坛版规的内容， 版主将收到举报后审核该帖！"></textarea>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                        <button id="report_submit" type="button" class="btn btn-primary" data-loading-text="正在提交...">发送报告</button>
+                                </div>
+                        </form>
+                </div>
+        </div>
+</div>
+
+<div class="modal fade appeal" id="appeal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="exampleModalLabel">求助问答申诉</h4>
+                        </div>
+                        <form id="form_appeal" action="https://bbs.pediy.com/post-appeal.htm" method="post">
+	                        <div class="modal-body">
+	                                <div class="form-group">
+	                                	<input id="pid" name="pid" value="0" type="hidden">
+	                                        <textarea class="form-control" id="brief" name="brief" rows="6" placeholder="请填写内容，注意: 请写明申诉的原因"></textarea>
+	                                </div>
+	                        </div>
+	                        <div class="modal-footer">
+	                                <button id="appeal_submit" type="button" class="btn btn-primary" data-loading-text="正在提交...">申请提交</button>
+	                        </div>
+	                </form>
+                </div>
+        </div>
+</div>
+
+<script src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/face.js.下载"></script>
+
+<script>
+	var jform = $('#quick_reply_form');
+	var jsubmit = $('#submit');
+	jform.on('submit', function() {
+		jform.reset();
+		jsubmit.button('loading');
+		var postdata = jform.serialize();
+		$.xpost(jform.attr('action'), postdata, function(code, message) {
+			if (code == 0) {
+				var s = '<table>' + message + '</table>';
+				var jtr = $(s).find('tr');
+				jtr.insertBefore($('table.postlist tr').last());
+				jsubmit.button('reset');
+				$('#message').val('');
+
+				// 楼层 +1
+				var jfloor = jform.find('.floor');
+				jfloor.html(xn.intval(jfloor.html()) + 1);
+
+				// 回复数 +1
+				var jposts = $('.posts');
+				jposts.html(xn.intval(jposts.html()) + 1);
+
+			} else if (code < 0) {
+				$.alert(message);
+				jsubmit.button('reset');
+			} else {
+				jform.find('[name="' + code + '"]').alert(message).focus();
+				jsubmit.button('reset');
+			}
+		});
+		return false;
+	});
+
+
+	//收藏功能
+	var jfavorite = $('#favorite');
+	var jlikes = $('#likes');
+   
+	jfavorite.on('click', function() {
+		var likenum = jlikes.text();
+		likenum_plus = parseInt(likenum) + 1;
+		likenum_sub = parseInt(likenum) - 1;
+		if(likenum_sub < 0) likenum_sub = 0;
+		$.xpost('thread-favorite-216969.htm', function(code, message) {
+			if(code == 0) {
+				var s = '<a href="javascript:void(0)" title="取消收藏"><i class="icon-star"></i>&nbsp;已收藏</a>';
+				jfavorite.html(s);
+				jlikes.text(likenum_plus);
+
+			}else if(code == 1) {
+				var s = '<a href="javascript:void(0)" title="点我收藏"><i class="icon-star-o"></i>&nbsp;收藏</a>';
+				jfavorite.html(s);
+				jlikes.text(likenum_sub);
+			} else {
+				$.alert(message);
+			}
+		});
+		return false;
+	});
+
+
+	// 缩放图片，适应屏幕大小。
+	function resize_image() {
+		var jmessagelist = $('div.message');
+		var first_width = jmessagelist.width(); // 815 : 746; //  734 746
+		jmessagelist.each(function() {
+			var jdiv = $(this);
+			var maxwidth = jdiv.attr('isfirst') ? first_width : first_width - 79; //  734 746
+			var jmessage_width = Math.min(jdiv.width(), maxwidth);
+			jdiv.find('img, embed, iframe').each(function() {
+				var jimg = $(this);
+				//if(jimg.width() < 500) return;
+				var img_width = this.org_width;
+				var img_height = this.org_height;
+				if (!img_width) {
+					var img_width = jimg.width();
+					var img_height = jimg.height();
+					this.org_width = img_width;
+					this.org_height = img_height;
+				}
+				//var percent = xn.min(100, xn.ceil((img_width / jmessage_width) * 100));
+				if (img_width > jmessage_width) {
+					if (this.tagName == 'IMG') {
+						jimg.width(jmessage_width);
+						jimg.css('height', 'auto');
+					} else {
+						jimg.width(jmessage_width);
+						var height = (img_height / img_width) * jimg.width();
+						jimg.height(height);
+					}
+				}
+
+			});
+		});
+	}
+	$(function() {
+
+		resize_image();
+		$(window).on('resize', resize_image);
+	 	//---------by wang start------------------------//
+		//取出tr的pid，赋值给tr使name为point_pid
+		// $(".post").each(function() {
+		// 	var cpid = $(this).attr("pid");
+		// 	$(this).attr("id","point_"+ cpid);
+		// });
+		var url = window.location.toString();
+		
+		if(url.indexOf("#") != -1){
+			var cpid = url.split("#")[1];
+			if(cpid) {
+				$(".post").each(function(k,v) {
+					if($(v).attr("pid") == cpid) {
+						var t = $(this).offset() ? $(this).offset().top : 0;
+						//$("#frame_right").scrollTop(t);
+						$("html,body").animate({scrollTop:t},800)
+					}
+					
+				});
+				
+			}
+		}
+		
+		//------------by wang end----------------------------//
+
+	});
+		
+	// 输入框自动伸缩
+	var jmessage = $('#message');
+	jmessage.on('focus', function() {
+		if (jmessage.t) {
+			clearTimeout(jmessage.t);
+			jmessage.t = null;
+		}
+		jmessage.css('height', '6rem');
+	});
+	jmessage.on('blur', function() {
+		jmessage.t = setTimeout(function() {
+			jmessage.css('height', '2.5rem');
+		}, 1000);
+	});
+
+	$('#nav_pc li[fid="161"]').tab('show');
+	$('#nav_mobile li[fid="161"]').tab('show');
+
+	 $(function(){
+		$('.emotion').qqFace({
+			id : 'facebox',
+			assign:'message',
+			path:'view/img/face/'
+		});
+	});
+
+	$("div.message img").css("cursor","pointer");
+	$("div.message img").on("click",function() {
+		if (window.innerWidth > 768) {
+			var img_src = $(this).attr("src");
+			var newwin = window.open();
+			var a = $("<img src="+ img_src +" style='position: absolute;' />");
+			var left_width = -(a[0].width / 2);
+			newwin.document.write("<img src="+ img_src +" style='position: absolute; left: 50%; margin-left:"+ left_width +"' />");
+			$(newwin.document.body).css("background","#000");
+		}
+	})
+</script>
+
+<script>
+var jpay_form = $('#pay_kx');
+var jkxpay = $('.kx-pay');
+var rid = 0;
+var check_handle = null;
+
+function topay(){
+    clearInterval(check_handle);
+    check_handle = null;
+    var valtype = $("input[name='reward_type']:checked").val();
+    var rmbstype = $("input[name='reward_rmbs']:checked").val();
+    if(!valtype) { alert('请您选择一个支付方式!'); return false; }
+    if(rmbstype < 1){
+        alert("好扣哦，打赏金额不能少于1元");
+        return false;
+    }else if(valtype == 1){
+        if(_is_weixin) {
+            $.alert('请用其它浏览器打开再用赞赏功能!');
+            return false;
+        }
+        window.Popup = window.open('about:blank', '_blank','width='+window.screen.width+',height='+window.screen.height+', ...');
+        var ptdata = jpay_form.serialize();
+        jkxpay.button('loading');
+        $.xpost('reward_pay-charge.htm', ptdata, function(code, message) {
+            if(code == 0) {
+                Popup.blur();
+                Popup.opener.focus();
+                Popup.location = 'reward_pay-reward_alipay-'+ message +'.htm';
+                jkxpay.button('reset');
+                $('.reward').modal('hide');
+                check_setInterval(message);
+            } else if(code < 0) {
+                Popup.close();
+                alert(message);
+                jkxpay.button('reset');
+            } else {
+                Popup.close();
+                alert(message);
+                jkxpay.button('reset');
+            }
+        });
+        return false;
+    }else if(valtype == 2){
+        var postdata = jpay_form.serialize();
+        jkxpay.button('loading');
+        $.xpost('reward_pay-reward_remainder.htm', postdata, function(code, message) {
+            if(code == 0) {
+                $.alert(message);
+                jkxpay.button('reset');
+                $('.reward').modal('hide');
+                window.location.reload();
+            } else if(code < 0) {
+               $.alert(message);
+                jkxpay.button('reset');
+            } else {
+                $.alert(message);
+                jkxpay.button('reset');
+            }
+        });
+        return false;
+    }else{
+        $('.reward').modal('hide');
+        return false;
+    }
+}
+
+function check_status(rid) {
+  $.xpost('reward_pay-check.htm', {checkid: rid}, function(code, message) {
+    if(code == 0) {
+      Popup.close();
+      $.alert('恭喜您，赞赏成功！');
+      setTimeout(function() {
+                 window.location.reload();
+      }, 3000);
+      // if(check_handle) {
+        clearInterval(check_handle);
+        check_handle = null;
+      // }
+    } else {
+      return false;
+    }
+  });
+}
+
+function check_setInterval(rid) {
+  check_handle = setInterval(function() {
+    check_status(rid);
+  }, 3000);
+}
+
+window._is_weixin = function() {
+  var _ua = window.navigator.userAgent.toLowerCase();
+  if (_ua.match(/MicroMessenger/i) == 'micromessenger') {
+      return true;
+  } else {
+      return false;
+  }
+}()
+
+</script><script>
+var jform_appeal = $('#form_appeal');
+var appeal_submit = $('#appeal_submit');
+
+appeal_submit.on('click', function() {
+    jform_appeal.reset();
+    appeal_submit.button('loading');
+    var postdata = jform_appeal.serialize();
+    
+    $.xpost(jform_appeal.attr('action'), postdata, function(code, message) {
+        if(code == 0) {
+       	$.alert(message);
+       	appeal_submit.button('reset');
+       	setTimeout(function(){window.location.reload();
+            }, 2000);
+        } else {
+    	$.alert(message);
+    	appeal_submit.button('reset');
+        }
+    });
+    return false;
+});
+
+ $('#appeal').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget)
+	var pid = button.data('pid');
+	var modal = $(this);
+	modal.find('.modal-body #pid').val(pid);
+
+})
+</script><script>
+
+var jform_report = $('#form_report');
+var report_submit = $('#report_submit');
+
+report_submit.on('click', function() {
+    jform_report.reset();
+    report_submit.button('loading');
+    var postdata = jform_report.serialize();
+    
+    $.xpost(jform_report.attr('action'), postdata, function(code, message) {
+        if(code == 0) {
+       	$.alert(message);
+       	report_submit.button('reset');
+       	setTimeout(function(){window.location.reload();
+            }, 1000);
+        } else {
+    	$.alert(message);
+    	report_submit.button('reset');
+        }
+    });
+    return false;
+});
+
+$('#report').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget)
+    var tid = button.data('tid');
+    var pid = button.data('pid');
+    var modal = $(this);
+
+    modal.find('.modal-body #tid').val(tid);
+    modal.find('.modal-body #pid').val(pid);
+})
+
+</script><!--游客下载附件关注微信公众号-->
+<div class="modal fade download_code" id="download_code" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+	                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                                <span aria-hidden="true">×</span>
+	                        </button>
+	                        <h5 class="modal-title" id="exampleModalLabel">游客下载提示</h5>
+                        </div>
+                        <form id="form_download" action="https://bbs.pediy.com/thread-216969.htm" method="post" target="_blank">
+                                <div class="modal-body text-center">
+                                    <input id="aid" name="aid" value="0" type="hidden">
+                                    <dl class="row">
+                                    	<dd class="text-left" style="width:50%">
+                                        	<div style="font-size:14px">
+                                        		<div>1.请先关注公众号。</div>
+                                        		<div>2.点击菜单"更多"。</div>
+                                        		<div>3.选择获取下载码。</div>
+                                        	</div>
+                                    	</dd>
+                                    	<dt><img src="./[原创]浅析android手游lua脚本的加密与解密-『Android安全』-看雪安全论坛_files/wxgz.jpg" width="80%"></dt>
+                                    </dl>
+                                    <fieldset class="form-group">
+                						<input class="form-control" type="text" id="download_code" name="download_code" placeholder="请输入下载码" value="">
+                					</fieldset>
+                                </div>
+                                <div class="modal-footer">
+                                        <button id="download_submit" type="button" class="btn btn-primary" data-loading-text="正在提交...">下载</button>
+                                </div>
+                        </form>
+                </div>
+        </div>
+</div>
+
+<script>
+
+var jform_download = $('#form_download');
+var jdownload_submit = $('#download_submit');
+
+jdownload_submit.on('click', function() {
+    jform_download.reset();
+    jdownload_submit.button('loading');
+    var postdata = jform_download.serialize();
+
+    var aid2 = jform_download.find('.modal-body #aid').val();
+    
+    $.xpost(jform_download.attr('action'), postdata, function(code, message) {
+        if(code == 0) {
+	       	jdownload_submit.button('下载中...');
+	       	var href = "attach-download-"+aid2+"-"+message+".htm";
+		window.location = href;
+		setTimeout(function() {
+                    jdownload_submit.button('reset');
+                    jform_download.find('.modal-body #download_code').val('');
+                }, 1500);
+		
+        } else {
+	    	$.alert(message);
+	    	jdownload_submit.button('reset');
+        }
+    });
+    return false;
+});
+
+$('#download_code').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget)
+    var aid = button.data('aid');
+    var modal = $(this);
+    var down_action="attach-download_code-"+aid+".htm";
+
+    modal.find('.modal-body #aid').val(aid);
+    modal.find('#form_download').attr('action', down_action);
+})
+
+</script><script>
+xn_read_unread({"216969": "1511882594"}, 216969);
+</script><script>
+jsearch_form = $('#search_form');
+jsearch_form.on('submit', function() {
+	var keyword = jsearch_form.find('input[name="keyword"]').val();
+	var url = xn.url('search-'+xn.urlencode(keyword));
+	window.location = url;
+	return false;
+});
+</script><script>
+// 语法高亮
+if($('div.message pre').length > 0) {
+	$.require_css('plugin/xn_syntax_hightlighter/syntax_hightlighter/syntax.css');
+	$.require('plugin/xn_syntax_hightlighter/syntax_hightlighter/syntax.js', function() {
+		SyntaxHighlighter.all();
+	});
+}
+</script></body></html>

@@ -1,0 +1,61 @@
+
+#creat_tree_div p {
+	font-family: arial;
+
+}
+#creat_tree_div a {
+	color: #000;
+	font-family: arial;
+	font-size: 0.8em;
+}
+#creat_tree_div {
+	position: relative;
+}
+
+.first_tree_ul,#floating_container {
+	margin: 0px;
+	padding: 0px;
+}
+.first_tree_ul ul {	 
+	margin-left: 0px; 
+	padding-left: 20px;
+	display: none; 
+}
+
+#floating_container ul {
+	margin-left: 20px; 
+	padding-left: 0px;
+}
+.first_tree_ul li,#floating_container li { 
+	vertical-align: middle;
+
+}
+.first_tree_ul li a,#floating_container li a { 
+	color: #000;
+	text-decoration: none;
+	font-family: arial;
+	font-size: 0.8em;
+	padding-left: 1px;
+	line-height: 13px;
+	margin-left: 2px;
+
+}
+.first_tree_ul li a.highlightedNodeItem {
+	color: #FFF;
+	background-color:  orange;
+	border:  1px solid orange;
+	/*border-radius:  5px;*/
+}
+
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+.first_tree_ul input.folderTreeTextBox {
+	font-size: 10px;
+	margin: 0px;
+	padding: 0px;
+	height:  18px;
+}
