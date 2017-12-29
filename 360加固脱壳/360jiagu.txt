@@ -10,8 +10,8 @@ a5: 360的opcode -> 对应 Dalvik的opcode(0x24)
    3: 3个参数
       26 02: type index(0226)
             32 04: r-l(v4 v3 v2)
-
-
+debug083 4A4DD000 4A550000 R . X D . byte 00 public CODE 32 00 00
+4A4DD000+35CA6=4A512CA6
 com/snow/alldalvikopcode/MainActivity
 
 4C40C+3f7=4C803
